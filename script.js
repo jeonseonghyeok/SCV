@@ -21,7 +21,7 @@ function memberInfoImport(){
 		type:"GET",
 		async : false,//동기방식으로 사용
 		datatype:"JSON",
-		url:"https://gist.githubusercontent.com/jeonseonghyeok/9bdd19e017cd5a30d76a44d5fcaf2a9c/raw/37417a0076149862e5f8b19e3e838a72e1bb75a4/memberList",
+		url:"memberInfoList",
 		success:function(result){
 			memberInfo = JSON.parse(result);
 		}
