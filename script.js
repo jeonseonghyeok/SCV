@@ -90,7 +90,7 @@ function GameSetting(list){
    document.write("첫(2배), 막(3배)"+"<br>");
    document.write("<br>");
    for(var i = 1;i<=(total+1)/2;i++){
-      document.write(i+"경기 VS");
+      document.write(i+"경기 VS<br>");
    }
    
    if(result[2][1] != "")
