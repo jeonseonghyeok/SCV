@@ -1,4 +1,6 @@
 function GameResultDecomposition(){
+  // VS 지우고, 2개 이상의 공백 1개로 변경하고, 줄바꿈제거 후, X경기 기준으로 분해
+  //결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
   var playResultList = $("#playResult").val().replace(/VS/g," ").replace(/\s{2,}/gi, ' ').replace(/\n/g,"").split(/\d{1,2}경기 /g)
   var winner;
   var players;
@@ -11,7 +13,9 @@ function GameResultDecomposition(){
       console.log(e);
       //console.log(e.search(reg));
       players = e.replace(/\(\d{1,2}\)/g,"").split(" ");
-      if(e.search(reg) <10){//왼쪽 승
+      if(e.search(reg) <5)
+        alert("승리팀 분석 실패\n"+e);
+      else if(e.search(reg) <10){//왼쪽 승
         winner = players[0] +" "+ players[1];
         oryuWinnerArr.push(players[0]);
         oryuWinnerArr.push(players[1]);
