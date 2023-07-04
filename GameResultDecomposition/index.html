@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <title>경기결과 정리</title>
+</head>
+
+<body>
+    <Table border="1" width = "70%">
+        <!-- <tr>
+            <td>기존 누적 :</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><textarea id="prevInfo" style="width : 96%; height: 200px; margin: 2%;"></textarea></td>
+            <td></td>
+        </tr> -->
+
+        <tr>
+            <td>게임 결과(입력)</td>
+            <td>승리자 정렬(출력)</td>
+        </tr>
+        <tr>
+            <td><textarea id="playResult" style="width : 96%; height: 200px; margin: 2%;"></textarea></td>
+            <td><textarea id="winnerSortResult" readonly style="width : 96%; height: 200px; margin: 2%;"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="tbnCalculator" onClick="GameResultDecomposition()">경기결과 정렬</button>
+            </td>
+        </tr>
+    </Table>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
