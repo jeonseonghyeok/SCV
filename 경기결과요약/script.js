@@ -6,7 +6,9 @@ function GameResultDecomposition(){
   var players;
   var reg = /\d{1,2}/g;
   var oryuWinnerArr = [];
+  var oryuGameTotalPoint = 0;
   var gogaWinnerArr = [];
+  var gogaGameTotalPoint = 0;
 
   playResultList.forEach(e => {
     if(e!=""){
@@ -19,19 +21,22 @@ function GameResultDecomposition(){
         winner = players[0] +" "+ players[1];
         oryuWinnerArr.push(players[0]);
         oryuWinnerArr.push(players[1]);
+        oryuGameTotalPoint += Number(e.match(reg)[0]);
       }
       else{//오른쪽 승
         winner = players[2] +" "+ players[3];
         gogaWinnerArr.push(players[2]);
         gogaWinnerArr.push(players[3]);
+        gogaGameTotalPoint += Number(e.match(reg)[0]);
       }
       console.log("승리자 : " + winner);
     }
   });
   
-  $("#winnerSortResult").val("오류\n");
+  $("#winnerSortResult").val("오류(합산점수 : " + oryuGameTotalPoint + ")\n");
+
   winResultPrint(oryuWinnerArr);
-  $("#winnerSortResult").val($("#winnerSortResult").val()+"고가\n");
+  $("#winnerSortResult").val($("#winnerSortResult").val()+"고가(합산점수 : " + gogaGameTotalPoint + ")\n");
   winResultPrint(gogaWinnerArr);
   
 }
