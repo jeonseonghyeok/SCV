@@ -42,7 +42,7 @@ function GameSetting(list){
      
      
      if(player == undefined || player.team == undefined)       
-       document.write(players[i]," : 정보가 없거나 티어 누락");
+       document.write(players[i]," : 정보가 없거나 티어 누락<br>");
      else{
        player.name = players[i];
 
