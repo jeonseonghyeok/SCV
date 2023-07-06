@@ -38,6 +38,7 @@ function GameResultDecomposition() {
   winResultPrint(oryuWinnerArr);
   $("#winnerSortResult").val($("#winnerSortResult").val() + "고가(합산점수 : " + gogaGameTotalPoint + ")\n");
   winResultPrint(gogaWinnerArr);
+  $("#tbnGameResultSave").show();
 
 }
 function winResultPrint(winnerArr) {
@@ -59,4 +60,22 @@ function winResultPrint(winnerArr) {
     winResultPrintMessege += (prevWinner + " " + numberOfWins + "승\n\n");
     $("#winnerSortResult").val($("#winnerSortResult").val() + winResultPrintMessege);
   }
+}
+
+function GameResultSave(){
+  if(confirm("해당 출력을 기록하시겠습니까?")){
+    alert("현재 미구현");
+    $.ajax({
+      type: "get",
+      url: "https://script.google.com/macros/s/AKfycbzPco8j4UMZRmHOh0BJr49cUkJ_h6bFM8tdhhdNVGVxFx8WClsshtx5N4bN9Vtbo461lw/exec",
+      success: function(response){
+         alert('입력 완료.');
+      }
+    });
+  }
+}
+function InputClear(){
+  $("#playResult").val("");
+  $("#winnerSortResult").val("");
+  $("#tbnGameResultSave").hide();
 }
