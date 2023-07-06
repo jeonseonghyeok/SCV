@@ -6,7 +6,7 @@
 
 <body>
     <div>
-        <Table style="text-align: center;border: 1px solid black;"  width="90%">
+        <Table>
             <!-- <tr>
             <td>기존 누적 :</td>
             <td></td>
@@ -15,26 +15,33 @@
             <td><textarea id="prevInfo" style="width : 96%; height: 200px; margin: 2%;"></textarea></td>
             <td></td>
         </tr> -->
-
-            <tr>
-                <td>경기 결과(입력)</td>
-                <td>승리자 정렬(출력)</td>
-            </tr>
-            <tr>
-                <td><textarea id="playResult" style="width : 96%; height: 200px; margin: 2%;" placeholder="1경기 이용대 유연성 (20) VS 최솔규 김원호&#10;2경기 이용대 유연성 VS 최솔규 김원호(9)"></textarea></td>
-                <td><textarea id="winnerSortResult" readonly style="width : 96%; height: 200px; margin: 2%;"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="float: left;margin: 5px;">
-                    <button id="tbnCalculator" onClick="GameResultDecomposition()">경기결과 정렬</button>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>경기결과(입력)</th>
+                    <th>승리횟수(출력)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea id="playResult" placeholder="1경기 이용대 유연성 (20) VS 최솔규 김원호&#10;2경기 이용대 유연성 VS 최솔규 김원호(9)"></textarea></td>
+                    <td><textarea id="winnerSortResult" readonly></textarea></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="tbnCalculator" onClick="GameResultDecomposition()">경기결과 정리</button>
+                    </td>
+                    <td>
+                        <button id="tbnGameResultSave" onClick="GameResultSave()" style="visibility: hidden;">승리횟수 기록</button>
+                    </td>
+                </tr>
+            </tbody>
         </Table>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+
 </body>
 
 </html>
