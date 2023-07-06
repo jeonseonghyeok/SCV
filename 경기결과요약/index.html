@@ -23,15 +23,16 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><textarea id="playResult" placeholder="1경기 이용대 유연성 (20) VS 최솔규 김원호&#10;2경기 이용대 유연성 VS 최솔규 김원호(9)"></textarea></td>
+                    <td><textarea id="playResult" placeholder="1경기 이용대 유연성 (20) VS 최솔규 김원호&#10;2경기 이용대 유연성 VS 최솔규 김원호(9)">1경기 강인호 이현창 (2) VS 김원훈 김민규</textarea></td>
                     <td><textarea id="winnerSortResult" readonly></textarea></td>
                 </tr>
                 <tr>
                     <td>
                         <button id="tbnCalculator" onClick="GameResultDecomposition()">경기결과 정리</button>
+                        <button id="tbnInputClear" onClick="InputClear()">지우기</button>
                     </td>
                     <td>
-                        <button id="tbnGameResultSave" onClick="GameResultSave()" style="visibility: hidden;">승리횟수 기록</button>
+                        <button id="tbnGameResultSave" onClick="GameResultSave()" style="display: none;">승리횟수 기록</button>
                     </td>
                 </tr>
             </tbody>
