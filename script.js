@@ -41,15 +41,15 @@ function GameSetting(list){
      //document.write(player);
      
      
-     if(player == undefined || player.team == undefined)       
-       document.write(players[i]," : 정보가 없거나 티어 누락<br>");
+     if(player == undefined || player.team == undefined || player.tier == undefined){       
+       document.write(players[i]," : 정보가 없거나 누락 존재<br>");
+  result[2][0] += (players[i] + " ");
+}
      else{
        player.name = players[i];
 
        if(player.team == 2)//깍두기
          result[2][0] += (player.name + " ");
-       else if(player.tier == undefined)//티어 미지정
-         result[2][1] += (player.name + " ");
        else
          result[player.team][player.tier] += player.name+" ";
     
