@@ -43,7 +43,7 @@ function GameSetting(list){
      
      if(player == undefined || player.team == undefined || player.tier == undefined){       
        document.write(players[i]," : 정보가 없거나 누락 존재<br>");
-  result[2][0] += (players[i] + " ");
+  //result[2][0] += (players[i] + " ");
 }
      else{
        player.name = players[i];
