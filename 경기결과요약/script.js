@@ -6,7 +6,7 @@ window.onload = function(){
 function GameResultDecomposition() {
   // VS 지우고, 2개 이상의 공백 1개로 변경하고, 줄바꿈제거 후, X경기 기준으로 분해
   //결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
-  var playResultList = $("#playResult").val().replace(/VS/g, " ").replace(/\s{2,}/gi, ' ').replace(/\n/g, "").split(/\d{1,2}경기 /g)
+  var playResultList = $("#playResult").val().replace(/VS/gi, " ").replace(/\s{2,}/gi, ' ').replace(/\n/g, "").split(/\d{1,2}경기 /g)
   var winner;
   var players;
   var reg = /\d{1,2}/g;
