@@ -1,8 +1,8 @@
 var memberInfo;
 window.onload = function(){
-  teamTierInfoCall();
+  memberInfoImport();
 }
-function teamTierInfoCall(){
+function memberInfoImport(){
    $.ajax({ 
     type:"GET",
     async : false,//동기방식으로 사용
