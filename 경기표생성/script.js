@@ -1,13 +1,3 @@
-
-		
-		
-
-
-
-
-
-
-
 var memberInfo;
 memberInfoImport();
 let list = prompt('참석 명단을 입력하시오.');
@@ -21,7 +11,7 @@ function memberInfoImport(){
 		type:"GET",
 		async : false,//동기방식으로 사용
 		datatype:"JSON",
-		url:"memberInfoList",
+		url:"../memberInfoList",
 		success:function(result){
 			memberInfo = JSON.parse(result);
 		}
