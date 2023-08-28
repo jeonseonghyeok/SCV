@@ -3,11 +3,12 @@ window.onload = function(){
   memberInfoImport();
 }
 function memberInfoImport(){
-   $.ajax({ 
+   $.ajax({
     type:"GET",
     async : false,//동기방식으로 사용
     datatype:"JSON",
     url:"../memberInfoList",
+    //url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
     success:function(result){
 	    memberInfo = JSON.parse(result);
       $("#btnMemberSearch").show();
@@ -74,9 +75,13 @@ function memeberInfoChange(name){
 			return 0;
 		}
 	}
-	else
+	else{
 		alert("변경사항 없이 종료합니다.");
-
+    return 0;
+  }
+    $("#btnMemberInfoExport").show();
+    $("#memberInfoBox").show();
+    $("#memberInfoBox").val("");
     memeberInfoPrint(name);
 }
 function memeberTeamChange(name){
@@ -151,4 +156,8 @@ function memeberInfoPrint(searchName){
   }
   playerInfo += "\n";
   alert(playerInfo);
+}
+
+function memeberInfoPrintByJson(){
+  $("#memberInfoBox").val(localStorage.getItem("memberInfo"));
 }
