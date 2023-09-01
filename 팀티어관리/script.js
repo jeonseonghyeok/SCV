@@ -11,7 +11,7 @@ function memberInfoImport(){
     //url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
     success:function(result){
 	    memberInfo = JSON.parse(result);
-      $("#btnMemberSearch").show();
+      $("#SearchButtonGroup").show();
     }
   });
 }
@@ -22,7 +22,7 @@ let choice;
 const member = memberInfo[searchName];
 
 if(searchName == null || searchName == '')
-  console.log("미입력 또는 취소로 종료");
+  alert("미입력 또는 취소로 종료");
 else if(member != undefined){
   memeberInfoPrint(searchName);
   choice = confirm("정보를 수정하시겠습니까?");
@@ -48,8 +48,8 @@ function memeberSignUp(name){
   //console.log(memeberTeamChange(name));
 
   if(memeberTeamChange(name) && memeberTierChange(name)){
-    localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
-    console.log(memberInfo[name]);
+    //localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
+    //console.log(memberInfo[name]);
 
     alert("완료되었습니다.");
     memeberInfoPrint(name);
@@ -59,7 +59,7 @@ function memeberSignUp(name){
 function memeberInfoChange(name){
 	if(confirm("티어를 변경하시겠습니까?")){
 		if(memeberTierChange(name)){
-			localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
+			// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 			alert("완료되었습니다.");
 		}
 		else{
@@ -68,7 +68,7 @@ function memeberInfoChange(name){
 	}
 	else if(confirm("팀을 변경하시겠습니까?")){
 		if(memeberTeamChange(name)){
-			localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
+			// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 			alert("완료되었습니다.");
 		}
 		else{
@@ -92,7 +92,7 @@ function memeberTeamChange(name){
   promptMessege += '(오류:0 / 고가:1 / 깍두기:2)';
   inputString = prompt(promptMessege,'');
   if(inputString == null || inputString == ""){
-    console.log("미입력 또는 취소로 종료");
+    alert("미입력 또는 취소로 종료");
     return 0;
   }
   memberInfo[name].team = Number(inputString);
@@ -104,7 +104,7 @@ function memeberTierChange(name){
   inputString = prompt(promptMessege,'');
   //console.log(inputString);
   if(inputString == null || inputString == ""){
-    console.log("미입력 또는 취소로 종료");
+    alert("미입력 또는 취소로 종료");
     return 0;
   }
   memberInfo[name].tier = Number(inputString);
@@ -158,6 +158,90 @@ function memeberInfoPrint(searchName){
   alert(playerInfo);
 }
 
+function memebersManage(){
+if(confirm("티어를 일괄적으로 변경하시겠습니까?")){
+	if(memeberListTierChange()){
+		// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
+		alert("완료되었습니다.");
+    $("#btnMemberInfoExport").show();
+    $("#memberInfoBox").show();
+    $("#memberInfoBox").val("");
+	}
+}
+else if(confirm("팀을 일괄적으로 변경하시겠습니까?")){
+	if(memeberListTeamChange()){
+		// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
+		alert("완료되었습니다.");
+    $("#btnMemberInfoExport").show();
+    $("#memberInfoBox").show();
+    $("#memberInfoBox").val("");
+	}
+}
+else
+	alert("변경 사항 없이 종료합니다.");
+}
+
+function memeberListTierChange(){
+	let list = prompt('명단을 입력하시오.');
+	var inputString;
+
+	if(list==null || list == ""){
+		alert("명단 입력이 필요합니다.");
+		return 0;
+		}
+	else{
+		promptMessege = '티어를 입력하시오.(1~5)\n';
+		promptMessege += '(브 : 1/ 실 : 2/ 골 : 3/ 플 : 4/ 다 : 5)';
+		inputString = Number(prompt(promptMessege,''));
+
+		if(inputString == null || inputString == ""){
+			alert("미입력 또는 취소로 종료");
+			return 0;
+		}
+		else{
+			const players = list.replace("  "," ").split(" ");
+
+			for(var i = 0; i < players.length;i++){
+        if(memberInfo[players[i]] == undefined)
+          alert("'"+players[i]+"'은(는) 명단에 존재하지 않아 미처리됩니다.");
+        else{
+          console.log(players[i] + " : "+memberInfo[players[i]].tier+ "->" + inputString);
+          memberInfo[players[i]].tier = inputString;
+        }
+			}
+			return 1;
+		}
+  }
+
+}
+
+function memeberListTeamChange(){
+	let list = prompt('명단을 입력하시오.');
+	var inputString;
+
+	if(list==null || list == ""){
+		alert("명단 입력이 필요합니다.");
+		return 0;
+		}
+	else{
+			promptMessege = '팀을 입력하시오.\n';
+			promptMessege += '(오류:0 / 고가:1 / 깍두기:2)';
+			inputString = Number(prompt(promptMessege,''));
+			const players = list.replace("  "," ").split(" ");
+
+			for(var i = 0; i < players.length;i++){
+			  if(memberInfo[players[i]] == undefined)
+          alert("'"+players[i]+"'은(는) 명단에 존재하지 않아 미처리됩니다.");
+        else{
+          console.log(players[i] + " : "+memberInfo[players[i]].team+ "->" + inputString);
+				  memberInfo[players[i]].team = inputString;
+        }
+			}
+			return 1;
+	}
+
+}
+
 function memeberInfoPrintByJson(){
-  $("#memberInfoBox").val(localStorage.getItem("memberInfo"));
+  $("#memberInfoBox").val(JSON.stringify(memberInfo));
 }
