@@ -64,13 +64,13 @@ function GameSetting(list){
    
    document.write("오류"+"<br>");
    document.write("<br>");
-   for(var i=5;i>0;i--)
+   for(var i=4;i>0;i--)
       document.write(tierName[i]+"("+i+") "+ result[0][i]+"<br>");
    document.write("<br>");
    
    document.write("고가"+"<br>");
    document.write("<br>");
-   for(var i=5;i>0;i--)
+   for(var i=4;i>0;i--)
       document.write(tierName[i]+"("+i+") "+ result[1][i]+"<br>");
    document.write("<br>");
    
