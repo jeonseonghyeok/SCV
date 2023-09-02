@@ -20,7 +20,7 @@ function memberInfoImport(){
 
 function GameSetting(list){
    //given
-   const result = Array.from(Array(3), () => Array(6).fill(""))
+   const result = Array.from(Array(3), () => Array(5).fill(""))
    const players = list.replace("  "," ").split(" ");
    var player;
   
@@ -54,9 +54,9 @@ function GameSetting(list){
 
  function resultPrint(result,total){
    
-   const tierName = ['','브','실','골','플','다'];
+   const tierName = ['','브','실','골','에'];
    
-   document.write("오류고가 팀전🏸<br>");//줄바꿈이 앱에서 안먹음
+   document.write("오류고가 팀전🏸<br>");
    document.write("<br>");
    
    document.write("깍두기 : "+ result[2][0]+"<br>");
