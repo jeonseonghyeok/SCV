@@ -42,7 +42,7 @@ function GameSetting(list){
        player.name = players[i];
 
        if(player.team == 2)//깍두기
-         result[2][0] += (player.name + "(" + tierName(palyer.tier) + ") ");
+         result[2][0] += (player.name + "(" + tierName[player.tier] + ") ");
        else
          result[player.team][player.tier] += player.name+" ";
     
