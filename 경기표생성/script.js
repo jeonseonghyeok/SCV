@@ -1,5 +1,6 @@
 var memberInfo;
 memberInfoImport();
+const tierName = ['','브','실','골','에'];
 let list = prompt('참석 명단을 입력하시오.');
 if(list==null || list == "")
   document.write("입력 값이 필요.");
@@ -32,14 +33,16 @@ function GameSetting(list){
      
      
      if(player == undefined || player.team == undefined || player.tier == undefined){       
-       document.write(players[i]," : 정보가 없거나 누락 존재<br>");
-  //result[2][0] += (players[i] + " ");
+	if(players[i].includes("🏸"))
+		result[2][0] += (players[i] + " ");
+	else
+       		document.write(players[i]," : 정보가 없거나 누락 존재<br>");
 }
      else{
        player.name = players[i];
 
        if(player.team == 2)//깍두기
-         result[2][0] += (player.name + " ");
+         result[2][0] += (player.name + "(" + tierName(palyer.tier) + ") ");
        else
          result[player.team][player.tier] += player.name+" ";
     
@@ -53,8 +56,6 @@ function GameSetting(list){
 
 
  function resultPrint(result,total){
-   
-   const tierName = ['','브','실','골','에'];
    
    document.write("오류고가 팀전🏸<br>");
    document.write("<br>");
