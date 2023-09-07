@@ -1,6 +1,7 @@
 var memberInfo;
 memberInfoImport();
 const tierName = ['','브','실','골','에'];
+const countOfMembers = [0,0];
 let list = prompt('참석 명단을 입력하시오.');
 if(list==null || list == "")
   document.write("입력 값이 필요.");
@@ -13,6 +14,7 @@ function memberInfoImport(){
 		async : false,//동기방식으로 사용
 		datatype:"JSON",
 		url:"../memberInfoList",
+		//url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
 		success:function(result){
 			memberInfo = JSON.parse(result);
 		}
@@ -43,8 +45,10 @@ function GameSetting(list){
 
        if(player.team == 2)//깍두기
          result[2][0] += (player.name + "(" + tierName[player.tier] + ") ");
-       else
+       else{
          result[player.team][player.tier] += player.name+" ";
+		 countOfMembers[player.team]++;
+	   }
     
      }
   }
@@ -63,13 +67,13 @@ function GameSetting(list){
    document.write("깍두기 : "+ result[2][0]+"<br>");
    document.write("<br>");
    
-   document.write("오류"+"<br>");
+   document.write("오류("+countOfMembers[0]+")<br>");
    document.write("<br>");
    for(var i=4;i>0;i--)
       document.write(tierName[i]+"("+i+") "+ result[0][i]+"<br>");
    document.write("<br>");
    
-   document.write("고가"+"<br>");
+   document.write("고가("+countOfMembers[1]+")<br>");
    document.write("<br>");
    for(var i=4;i>0;i--)
       document.write(tierName[i]+"("+i+") "+ result[1][i]+"<br>");
