@@ -52,6 +52,9 @@ function memeberSignUp(name){
     //console.log(memberInfo[name]);
 
     alert("완료되었습니다.");
+    $("#btnMemberInfoExport").show();
+    $("#memberInfoBox").show();
+    $("#memberInfoBox").val("");
     memeberInfoPrint(name);
   }
 
