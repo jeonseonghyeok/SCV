@@ -1,10 +1,21 @@
-window.onload = function(){
-	//실행될 코드
-  var now = new Date();
-  document.getElementById('date').value = now.toISOString().substring(0, 10);
-}
 var oryuWinnerList;
 var gogaWinnerList;
+
+window.onload = function(){
+	var now = new Date();
+	if(now.getHours()>20)
+		$("#time").val("19:30");
+	else if(now.getHours()>14)
+		$("#time").val("14:00");
+	else if(now.getHours()>10)
+		$("#time").val("10:00");
+	else
+		$("#time").val("08:00");
+
+	var userTimeParts = $("#time").val().split(":");
+	var userHours = parseInt(userTimeParts[0]);
+	var userMinutes = parseInt(userTimeParts[1]);
+}
 
 function GameResultDecomposition() {
   // 괄호 내 문자 포함한 경우 제거하고, VS(대소문자 구분 없이) 지우고, 2개 이상의 공백 1개로 변경하고, 줄바꿈제거 후, X경기 기준으로 분해
