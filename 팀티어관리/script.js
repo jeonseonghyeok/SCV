@@ -277,6 +277,7 @@ function memberNamePrint(memberArr){
 			default:
 				printMessege += '누락';
 		}
+		printMessege += ("("+memberArr[i].length+")");
 		printMessege += '\n';
 		memberArr[i].sort().forEach(function(memberName) {
 			printMessege += (memberName+"\n");
