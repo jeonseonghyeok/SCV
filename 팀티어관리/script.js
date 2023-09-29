@@ -7,11 +7,11 @@ function memberInfoImport(){
     type:"GET",
     async : false,//동기방식으로 사용
     datatype:"JSON",
-    url:"../memberInfoList",
-    //url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
+    //url:"../memberInfoList",
+    url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
     success:function(result){
 	    memberInfo = JSON.parse(result);
-      $("#SearchButtonGroup").show();
+      $("#teamTierManage").show();
     }
   });
 }
@@ -52,8 +52,6 @@ function memeberSignUp(name){
     //console.log(memberInfo[name]);
 
     alert("완료되었습니다.");
-    $("#btnMemberInfoExport").show();
-    $("#memberInfoBox").show();
     $("#memberInfoBox").val("");
     memeberInfoPrint(name);
   }
@@ -82,8 +80,6 @@ function memeberInfoChange(name){
 		alert("변경사항 없이 종료합니다.");
     return 0;
   }
-    $("#btnMemberInfoExport").show();
-    $("#memberInfoBox").show();
     $("#memberInfoBox").val("");
     memeberInfoPrint(name);
 }
@@ -103,7 +99,7 @@ function memeberTeamChange(name){
 }
 function memeberTierChange(name){
   promptMessege = '티어를 입력하시오.(1~5)\n';
-  promptMessege += '(브 : 1/ 실 : 2/ 골 : 3/ 플 : 4/ 다 : 5)';
+  promptMessege += '(브 : 1/ 실 : 2/ 골 : 3/ 에 : 4)';
   inputString = prompt(promptMessege,'');
   //console.log(inputString);
   if(inputString == null || inputString == ""){
@@ -149,10 +145,7 @@ function memeberInfoPrint(searchName){
         playerInfo += '골드';
         break;
     case 4:
-        playerInfo += '플레티넘';
-        break;
-    case 5:
-        playerInfo += '다이아';
+        playerInfo += '에메랄드';
         break;
     default:
         playerInfo += '미정';
@@ -166,8 +159,6 @@ if(confirm("티어를 일괄적으로 변경하시겠습니까?")){
 	if(memeberListTierChange()){
 		// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 		alert("완료되었습니다.");
-    $("#btnMemberInfoExport").show();
-    $("#memberInfoBox").show();
     $("#memberInfoBox").val("");
 	}
 }
@@ -175,8 +166,6 @@ else if(confirm("팀을 일괄적으로 변경하시겠습니까?")){
 	if(memeberListTeamChange()){
 		// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 		alert("완료되었습니다.");
-    $("#btnMemberInfoExport").show();
-    $("#memberInfoBox").show();
     $("#memberInfoBox").val("");
 	}
 }
@@ -194,7 +183,7 @@ function memeberListTierChange(){
 		}
 	else{
 		promptMessege = '티어를 입력하시오.(1~5)\n';
-		promptMessege += '(브 : 1/ 실 : 2/ 골 : 3/ 플 : 4/ 다 : 5)';
+		promptMessege += '(브 : 1/ 실 : 2/ 골 : 3/ 에 : 4)';
 		inputString = Number(prompt(promptMessege,''));
 
 		if(inputString == null || inputString == ""){
@@ -247,4 +236,59 @@ function memeberListTeamChange(){
 
 function memeberInfoPrintByJson(){
   $("#memberInfoBox").val(JSON.stringify(memberInfo));
+}
+function memebersTeamReset(){
+	if(confirm("팀을 초기화 하시겠습니까?")){
+		for (var key in memberInfo) {
+			if (memberInfo.hasOwnProperty(key)) { // 객체의 고유한 속성만 처리
+				delete(memberInfo[key].team);
+			}
+		}
+	}
+}
+
+function memeberNameByTeamOrder(){
+	var memberArr = [[], [], [], []]; //4개 생성
+	
+	for (var key in memberInfo) {
+			if (memberInfo[key].hasOwnProperty("team")) { // team이 있을 경우에만 처리 0,1,2 이외에는 없을 것으로 간주
+				memberArr[memberInfo[key].team].push(key);
+			}
+			else{
+				memberArr[3].push(key);
+			}
+		}
+	//출력	
+	memberNamePrint(memberArr);
+}
+function memberNamePrint(memberArr){
+	let printMessege = "";
+	for (var i = 0; i < memberArr.length; i++) {
+		switch (i) {
+			case 0:
+				printMessege += '오류';
+				break;
+			case 1:
+				printMessege += '고가';
+				break;
+			case 2:
+				printMessege += '깍두기';
+				break;
+			default:
+				printMessege += '누락';
+		}
+		printMessege += '\n';
+		memberArr[i].sort().forEach(function(memberName) {
+			printMessege += (memberName+"\n");
+		});
+		printMessege += '\n\n';
+	};
+	$("#memberInfoBox").val(printMessege);
+}
+function ConversionToObject(array) {
+    array.sort();
+    return array.reduce((pv, cv)=>{
+        pv[cv] = (pv[cv] || 0) + 1;
+        return pv;
+    }, {});
 }

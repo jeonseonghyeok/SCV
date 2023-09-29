@@ -11,22 +11,24 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="script.js"></script>
   <link rel="stylesheet" href="style.css">
-    <table>
-      <tr id="SearchButtonGroup" style="display: none;">
+    <table id="teamTierManage" style="display: none;">
+      <tr>
         <td>
           <button id = "btnMemberSearch" onClick="memeberSearch()">개별조회 및 변경</button>
-          <button id = "btnMembersManage" onClick="memebersManage()">멤버정보 일괄 변경</button>
+          <button id = "btnMembersManage" onClick="memebersManage()">멤버정보 일괄 변경</button> <br>
+          <button id = "btnMembersManage" onClick="memebersTeamReset()">팀 초기화</button>
         </td>
       </tr>
 
       <tr>
         <td>
-          <textarea id="memberInfoBox" style="display: none;"></textarea>
+          <textarea id="memberInfoBox"></textarea>
         </td>
       </tr>
       <tr>
         <td>
-          <button id = "btnMemberInfoExport" onClick="memeberInfoPrintByJson()" style="display: none;">멤버 리스트 출력</button>
+          <button id = "btnMemberInfoExport" onClick="memeberInfoPrintByJson()">멤버 리스트 출력</button>
+          <button id = "btnMemberInfoExport" onClick="memeberNameByTeamOrder()">팀별 멤버 리스트</button>
         </td>
       </tr>
 </body>
