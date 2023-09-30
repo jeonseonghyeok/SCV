@@ -261,6 +261,18 @@ function memeberNameByTeamOrder(){
 	//출력	
 	memberNamePrint(memberArr);
 }
+
+function removeTeamMissingMembers(){
+	if(confirm("팀 누락명단에 있는 멤버를 제거하시겠습니까?")){
+		for (var key in memberInfo) {
+			if (!memberInfo[key].hasOwnProperty('team')) {
+				delete(memberInfo[key]);
+			}
+		}
+	}
+	
+}
+
 function memberNamePrint(memberArr){
 	let printMessege = "";
 	for (var i = 0; i < memberArr.length; i++) {
