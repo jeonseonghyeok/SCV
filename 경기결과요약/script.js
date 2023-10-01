@@ -23,7 +23,7 @@ function GameResultDecomposition() {
   var playResultList = $("#playResult").val().replace(/\(\D.*?\)/g, " ").replace(/VS/gi, " ").replace(/\s{2,}/gi, ' ').replace(/\n/g, "").split(/\d{1,2}경기 /g);
   var winner;
   var players;
-  var reg = /\d{1,2}/g;
+  var reg =/\(\d{1,2}\)/g;
   var oryuWinnerArr = [];
   var oryuGameTotalPoint = 0;
   var gogaWinnerArr = [];
@@ -33,20 +33,20 @@ function GameResultDecomposition() {
     if (e != "") {
       console.log(e);
       //console.log(e.search(reg));
-      players = e.replace(/\(\d{1,2}\)/g, "").split(" ");
+      players = e.replace(reg, "").split(" ");
       if (e.search(reg) < 5)
         alert("승리팀 분석 실패\n" + e);
-      else if (e.search(reg) < 10) {//왼쪽 승
+      else if (e.search(reg) < 12) {//왼쪽 승(인덱스 값 7~9 예상)
         winner = players[0] + " " + players[1];
         oryuWinnerArr.push(players[0]);
         oryuWinnerArr.push(players[1]);
-        oryuGameTotalPoint += Number(e.match(reg)[0]);
+        oryuGameTotalPoint += parseInt(e.match(reg)[0][1]);
       }
       else {//오른쪽 승
         winner = players[2] + " " + players[3];
         gogaWinnerArr.push(players[2]);
         gogaWinnerArr.push(players[3]);
-        gogaGameTotalPoint += Number(e.match(reg)[0]);
+        gogaGameTotalPoint += parseInt(e.match(reg)[0][1]);
       }
       console.log("승리팀 : " + winner);
     }
