@@ -3,6 +3,7 @@ var gogaWinnerList;
 
 window.onload = function(){
 	var now = new Date();
+	document.getElementById('date').valueAsDate = now;
 	if(now.getHours()>20)
 		$("#time").val("19:30");
 	else if(now.getHours()>14)
