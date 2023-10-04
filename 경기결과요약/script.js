@@ -41,13 +41,13 @@ function GameResultDecomposition() {
         winner = players[0] + " " + players[1];
         oryuWinnerArr.push(players[0]);
         oryuWinnerArr.push(players[1]);
-        oryuGameTotalPoint += parseInt(e.match(reg)[0][1]);
+        oryuGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
       }
       else {//오른쪽 승
         winner = players[2] + " " + players[3];
         gogaWinnerArr.push(players[2]);
         gogaWinnerArr.push(players[3]);
-        gogaGameTotalPoint += parseInt(e.match(reg)[0][1]);
+        gogaGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
       }
       console.log("승리팀 : " + winner);
     }
