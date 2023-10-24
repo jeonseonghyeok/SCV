@@ -58,8 +58,8 @@ function memeberSignUp(name){
 
 }
 function memeberInfoChange(name){
-	if(confirm("티어를 변경하시겠습니까?")){
-		if(memeberTierChange(name)){
+	if(confirm("팀을 변경하시겠습니까?")){
+		if(memeberTeamChange(name)){
 			// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 			alert("완료되었습니다.");
 		}
@@ -67,8 +67,8 @@ function memeberInfoChange(name){
 			return 0;
 		}
 	}
-	else if(confirm("팀을 변경하시겠습니까?")){
-		if(memeberTeamChange(name)){
+	else if(confirm("티어를 변경하시겠습니까?")){
+		if(memeberTierChange(name)){
 			// localStorage.setItem("memberInfo", JSON.stringify(memberInfo));
 			alert("완료되었습니다.");
 		}
