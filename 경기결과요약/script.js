@@ -132,33 +132,43 @@ function GameResultSave(){
       return 0;
   }
   if(confirm("승리명단을 기록하시겠습니까?(작성자 : "+writer+")")){
-    $.ajax({
-      type: "get",
-      data: {
-        "gameTime" : gameTime,
-        "writer" : writer,
-        "gameResult": JSON.stringify(Object.assign(oryuWinnerList,gogaWinnerList))
-      },
-      url: "https://script.google.com/macros/s/"+scriptLink+"/exec",
-      // url: "https://script.google.com/macros/s/"+scriptLink_test+"/dev",
-      success: function(response){
-        console.log(response);
-        if(response.result == "success")
-          alert('입력 완료.');
-        else if((response.result == "error"))
-          alert(response.errorMessage);
-      }
-    });
-  }
-  else{
-    if(confirm("작성자를 변경하시겠습니까?")){
-      localStorage.removeItem("writer");
-      GameResultSave();
-    }
-  }
-}
+	removeKeysWithGuest(oryuWinnerList);
+	removeKeysWithGuest(gogaWinnerList);
+	    $.ajax({
+	      type: "get",
+	      data: {
+	        "gameTime" : gameTime,
+	        "writer" : writer,
+	        "gameResult": JSON.stringify(Object.assign(oryuWinnerList,gogaWinnerList))
+	      },
+	      url: "https://script.google.com/macros/s/"+scriptLink+"/exec",
+	      // url: "https://script.google.com/macros/s/"+scriptLink_test+"/dev",
+	      success: function(response){
+	        console.log(response);
+	        if(response.result == "success")
+	          alert('입력 완료.');
+	        else if((response.result == "error"))
+	          alert(response.errorMessage);
+	      }
+	    });
+	  }
+	  else{
+	    if(confirm("작성자를 변경하시겠습니까?")){
+	      localStorage.removeItem("writer");
+	      GameResultSave();
+	    }
+	  }
+	}
 function InputClear(){
   $("#playResult").val("");
   $("#winnerSortResult").val("");
   $("#tbnGameResultSave").saveForm();
+}
+// 키 이름에 "(게)" 문자를 포함한 키를 제거한 JSON 객체
+function removeKeysWithGuest(jsonData) {
+  for (const key in jsonData) {
+    if (key.includes("(게)")) {
+      delete jsonData[key];
+    }
+  }
 }
