@@ -22,38 +22,39 @@ window.onload = function(){
 }
 
 function GameResultDecomposition() {
-  // 괄호 내 문자 포함한 경우 제거하고, VS(대소문자 구분 없이) 지우고,이름 외자인 인원 이름 내 공백제거, 줄바꿈제거 후, X경기 기준으로 분해
-  //결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
-  var playResultList = $("#playResult").val().replace(/\(\D.*?\)/g, " ").replace(/VS/gi, " ").replace(/이 +현/g, "이현").replace(/박 +찬/g, "박찬").replace(/\n/g, "").split(/\d{1,2}경기 /g);
-  var winner;
-  var players;
-  //var reg =/\(\d{1,2}\)/g; //(15)와 같이 점수를 포함한 괄호를 찾는 패턴
-  var reg = /\s*\(\d{1,2}\)/g;
-  var oryuWinnerArr = [];
-  oryuWinner = {};
-  gogaWinner = {};
-  var oryuGameTotalPoint = 0;
-  var gogaWinnerArr = [];
-  var gogaGameTotalPoint = 0;
-
-  playResultList.forEach(e => {
-    if (e != "") {
-      console.log(e);
-      // 1개 이상의 공백을 기준으로 문자열을 분할하는 정규식 패턴 사용
-      players = e.replace(reg, "").trim().split(/\s+/);
-      if (e.search(reg) < 5)
-        alert("승리팀 분석 실패\n" + e);
-      else if (e.search(reg) < 12) {//왼쪽 승(인덱스 값 7~9 예상)
-		winCount(players,0);
-        oryuGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
-      }
-      else {//오른쪽 승
-        winCount(players,1);
-		gogaGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
-      }
-
-    }
-  });
+  	// 괄호 내 문자 포함한 경우(왼or오) 제거 임시보류 - (게)의 경우도 함께 사라져서 결과가 제대로 나오지 못함 (.replace(/\(\D.*?\)/g, " "))
+	//VS(대소문자 구분 없이) 지우고,이름 외자인 인원 이름 내 공백제거, 줄바꿈제거 후, X경기 기준으로 분해
+  	//결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
+	  var playResultList = $("#playResult").val().replace(/VS/gi, " ").replace(/이 +현/g, "이현").replace(/박 +찬/g, "박찬").replace(/\n/g, "").split(/\d{1,2}경기 /g);
+	  var winner;
+	  var players;
+	  //var reg =/\(\d{1,2}\)/g; //(15)와 같이 점수를 포함한 괄호를 찾는 패턴
+	  var reg = /\s*\(\d{1,2}\)/g;
+	  var oryuWinnerArr = [];
+	  oryuWinner = {};
+	  gogaWinner = {};
+	  var oryuGameTotalPoint = 0;
+	  var gogaWinnerArr = [];
+	  var gogaGameTotalPoint = 0;
+	
+	  playResultList.forEach(e => {
+	    if (e != "") {
+	      console.log(e);
+	      // 1개 이상의 공백을 기준으로 문자열을 분할하는 정규식 패턴 사용
+	      players = e.replace(reg, "").trim().split(/\s+/);
+	      if (e.search(reg) < 5)
+	        alert("승리팀 분석 실패\n" + e);
+	      else if (e.search(reg) < 12) {//왼쪽 승(인덱스 값 7~9 예상)
+			winCount(players,0);
+	        oryuGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
+	      }
+	      else {//오른쪽 승
+	        winCount(players,1);
+			gogaGameTotalPoint += parseInt(e.match(reg)[0].match(/\d+/)[0]);
+	      }
+	
+	    }
+	  });
 
   $("#winnerSortResult").val("오류(합산점수 : " + oryuGameTotalPoint + ")\n");
   oryuWinnerList = Object.fromEntries(Object.entries(oryuWinner).sort());
