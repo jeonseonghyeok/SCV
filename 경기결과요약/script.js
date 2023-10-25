@@ -22,9 +22,9 @@ window.onload = function(){
 }
 
 function GameResultDecomposition() {
-  // 괄호 내 문자 포함한 경우 제거하고, VS(대소문자 구분 없이) 지우고, 줄바꿈제거 후, X경기 기준으로 분해
+  // 괄호 내 문자 포함한 경우 제거하고, VS(대소문자 구분 없이) 지우고,이름 외자인 인원 이름 내 공백제거, 줄바꿈제거 후, X경기 기준으로 분해
   //결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
-  var playResultList = $("#playResult").val().replace(/\(\D.*?\)/g, " ").replace(/VS/gi, " ").replace(/\n/g, "").split(/\d{1,2}경기 /g);
+  var playResultList = $("#playResult").val().replace(/\(\D.*?\)/g, " ").replace(/VS/gi, " ").replace(/이 +현/g, "이현").replace(/박 +찬/g, "박찬").replace(/\n/g, "").split(/\d{1,2}경기 /g);
   var winner;
   var players;
   //var reg =/\(\d{1,2}\)/g; //(15)와 같이 점수를 포함한 괄호를 찾는 패턴
