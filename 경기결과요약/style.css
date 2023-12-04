@@ -1,0 +1,18 @@
+body {
+  margin: 30px;
+}
+
+table {
+  /* border: 1px solid black; */
+  width: 100%;
+  table-layout: fixed;
+}
+
+th{
+  text-align: center;
+  border: 1px solid black;
+}
+textarea{
+  width : 98%;
+  height: 250px;
+}
