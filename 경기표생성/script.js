@@ -1,6 +1,21 @@
+var memberInfo;
 window.onload = function(){
+    memberInfoImport();
 }
 
+
+function memberInfoImport(){
+	$.ajax({
+		type:"GET",
+		async : false,//동기방식으로 사용
+		datatype:"JSON",
+		//url:"../memberInfoList",
+		url:"https://jeonseonghyeok.github.io/SCV/memberInfoList",
+		success:function(result){
+			memberInfo = JSON.parse(result);
+		}
+	});
+}
 function GameCreate() {
 
 	var attendanceListArr= $("#attendanceList")
@@ -19,8 +34,6 @@ function GameCreate() {
 	//인원이 홀수인 경우 출석
 	if(attendanceListArr.length % 2 !== 0)
 		readyPlayerListArr = readyPlayerListArr.concat(attendanceListArr.slice(0, 2));
-	// 플레이어 섞기
-	//shuffle(readyPlayerListArr);
 	var gameTomtalNumber = Math.ceil(attendanceListArr.length/2) //경기 수
 
 	var playLIstArr = createPlayLIst(readyPlayerListArr);
@@ -31,16 +44,31 @@ function GameCreate() {
 		playLIst += ((i+1)+"경기 "+playLIstArr[i][0]+" "+playLIstArr[i][1]+" VS "+playLIstArr[i][2]+" "+playLIstArr[i][3]+"\n");
 	}
 
-	$("#playLIst").val(playLIst);
+	$("#playLIst").val(playersInfoPrint(attendanceListArr)+"\n"+playLIst);
 
 }
-//배열을 섞기 위한 함수
-function shuffleArray(array) {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
+function playersInfoPrint(attendanceListArr){
+    const playersInfoArr = Array(5).fill("");
+    const tierName = ['🏸','브','실','골','에'];
+    let playersInfo = "오류고가 팀전🏸\n";
+    for(var i = 0; i < attendanceListArr.length;i++){
+        player = attendanceListArr[i];
+        if(memberInfo[player] == undefined || memberInfo[player].tier == undefined){
+            playersInfoArr[0] += (player + " ");
+        }
+        else{
+            playersInfoArr[memberInfo[player].tier] += (player + " ");
+        }
+    }
+    playersInfo += "총원 ("+attendanceListArr.length+")\n\n"
+    for(var i=playersInfoArr.length-1;i>0;i--){
+        playersInfo += (tierName[i]+"("+(playersInfoArr.length-i)+") "+ playersInfoArr[i]+"\n");
+    }
+    if(playersInfoArr[0].length>0)
+        playersInfo += ("\n"+tierName[0]+" "+playersInfoArr[i]+"\n");
+    return playersInfo;
 }
+
 
 function InputClear(){
 	$("#attendanceList").val("");
