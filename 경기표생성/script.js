@@ -21,7 +21,9 @@ function GameCreate() {
 	var attendanceListArr= $("#attendanceList")
 	.val()
 	.replace(/\(\D.*?\)/g, "")  // 괄호 안의 내용 제거
-	.replace(/\d{1,2}\. /g, "")  // 숫자와 마침표 제거
+	.replace(/\d{1,2}\./g, "")  // 숫자와 마침표 제거
+	.replace(/콕\d{1}/g, "")  // 숫자와 마침표 제거
+	.replace(/🏸/g, "")	//신입표시 제거
 	.replace(/ /g, "")	//띄어쓰기 제거
 	.split("\n");  // 개행 문자로 나누어 배열 생성
 
@@ -71,8 +73,12 @@ function playersInfoPrint(attendanceListArr){
 
 
 function InputClear(){
-	$("#attendanceList").val("");
-	$("#playLIst").val("");
+	var choice = confirm("지우시겠습니까?");
+	
+	if(choice){
+		$("#attendanceList").val("");
+		$("#playLIst").val("");
+	};
 }
 function createPlayLIst(readyPlayerListArr) {
 	let array = readyPlayerListArr.slice();
