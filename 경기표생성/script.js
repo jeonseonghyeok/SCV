@@ -38,21 +38,24 @@ function GameCreate() {
 		readyPlayerListArr = readyPlayerListArr.concat(attendanceListArr.slice(0, 2));
 	var gameTomtalNumber = Math.ceil(attendanceListArr.length/2) //경기 수
 
-	var playLIstArr = createPlayLIst(readyPlayerListArr);
+	var playListArr = createPlayList(readyPlayerListArr);
 
 	// 2차원 배열 순환
-	var playLIst="";
-	for (let i = 0; i < playLIstArr.length; i++) {
-		playLIst += ((i+1)+"경기 "+playLIstArr[i][0]+" "+playLIstArr[i][1]+" VS "+playLIstArr[i][2]+" "+playLIstArr[i][3]+"\n");
+	var playList="";
+	for (let i = 0; i < playListArr.length; i++) {
+		playList += ((i+1)+"경기 "+playListArr[i][0]+" "+playListArr[i][1]+" VS "+playListArr[i][2]+" "+playListArr[i][3]+"\n");
 	}
-
-	$("#playLIst").val(playersInfoPrint(attendanceListArr)+"\n"+playLIst);
+	var playListContent = '';
+	playListContent += (playersInfoPrint(attendanceListArr)+"\n");
+	playListContent += playList;
+	$("#playList").val(playListContent);
 
 }
 function playersInfoPrint(attendanceListArr){
     const playersInfoArr = Array(5).fill("");
     const tierName = ['🏸','브','실','골','에'];
-    let playersInfo = "오류고가 팀전🏸\n";
+    let playersInfo = "SCV경기표🏸\n";
+    playersInfo += ("("+getPlayTime()+")\n");
     for(var i = 0; i < attendanceListArr.length;i++){
         player = attendanceListArr[i];
         if(memberInfo[player] == undefined || memberInfo[player].tier == undefined){
@@ -77,10 +80,10 @@ function InputClear(){
 	
 	if(choice){
 		$("#attendanceList").val("");
-		$("#playLIst").val("");
+		$("#playList").val("");
 	};
 }
-function createPlayLIst(readyPlayerListArr) {
+function createPlayList(readyPlayerListArr) {
 	let array = readyPlayerListArr.slice();
 	let groups = [];
 	let currentGroup = [];
@@ -116,6 +119,20 @@ function createPlayLIst(readyPlayerListArr) {
 	return groups;
 }
 
-
+function getPlayTime() {
+    var now = new Date();
+    var month = now.toLocaleString('default', { month: 'long' });
+    var day = now.getDate();
+    var formattedDate = month + ' ' + day + '일';
+    var formattedTime;
+    
+    if(now.getHours()>12)
+    	formattedTime = "오후 7시 30분"
+	else if(now.getHours()>9)
+		formattedTime = ("오후 12시");
+	else
+		formattedTime = ("오전 9시 30분");
+    return formattedDate + " " +formattedTime;
+}
 
 
