@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 
 <head>
-    <title>경기결과 요약</title>
+    <title>경기표생성</title>
 </head>
 
 <body>
     <div>
         <Table>
-            <thead>
-                <tr>
-                    <th>출석표(입력)</th>
-                    <th>경기표(출력)</th>
-                </tr>
-            </thead>
             <tbody>
+	            <tr>
+	            	<th>출석표(입력)</th>
+	            </tr>
                 <tr>
                     <td><textarea id="attendanceList"
                             placeholder="1. 전성혁(실)&#10;2. 강선문(골)&#10;3. 방한결(에)&#10;4. 이정석(골)"></textarea>
                     </td>
-                    <td><textarea id="playLIst" readonly></textarea></td>
                 </tr>
+                <tr>
+                	<th>경기표(출력)</th>
+	            </tr>
+                <tr>
+                    <td><textarea id="playLIst" readonly></textarea></td>
+				</tr>
                 <tr>
                     <td>
                         <button id="tbnCalculator" onClick="GameCreate()">경기표 출력</button>
