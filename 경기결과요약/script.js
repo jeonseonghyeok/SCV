@@ -4,12 +4,12 @@ var winnerList;
 window.onload = function(){
 	var now = new Date();
 	document.getElementById('date').valueAsDate = now;
-	if(now.getHours()>19)
+	if(now.getHours()>20)
 		$("#time").val("19:30");
-	else if(now.getHours()>14)
-		$("#time").val("14:00");
+	else if(now.getHours()>13)
+		$("#time").val("12:00");
 	else
-		$("#time").val("08:00");
+		$("#time").val("09:00");
 
 	var userTimeParts = $("#time").val().split(":");
 	var userHours = parseInt(userTimeParts[0]);
