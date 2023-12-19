@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 위의 meta 태그는 모바일 화면에 최적화된 설정입니다. -->
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+    <title>팀티어 관리</title>
+</head>
+
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
+    <table id="teamTierManage" style="display: none;">
+      <tr>
+        <td>
+          <button id = "btnMemberSearch" onClick="memeberSearch()">개별조회 및 변경</button>
+          <button id = "btnMembersManage" onClick="memebersManage()">멤버정보 일괄 변경</button> <br>
+          <button id = "btnMembersManage" onClick="memebersTeamReset()">팀 초기화</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <textarea id="memberInfoBox"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id = "btnMemberInfoExport" onClick="memeberInfoPrintByJson()">멤버 리스트 출력</button>
+          <button id = "btnMemberInfoExport" onClick="memeberNameByTeamOrder()">팀별 멤버 리스트</button>
+          <button id = "btnMembersManage" onClick="removeTeamMissingMembers()">누락 멤버 제거</button>
+        </td>
+      </tr>
+</body>
+</html>
