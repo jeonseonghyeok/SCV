@@ -54,8 +54,8 @@ function GameCreate() {
 
 }
 function playersInfoPrint(attendanceListArr){
-    const playersInfoArr = Array(5).fill("");
-    const tierName = ['🏸','브','실','골','에'];
+    const tierName = ['🏸','브','실','골','플','다','마'];
+    const playersInfoArr = Array(tierName.length).fill("");
     let playersInfo = "SCV경기표🏸\n";
     playersInfo += ("("+getPlayTime()+")\n");
     for(var i = 0; i < attendanceListArr.length;i++){
