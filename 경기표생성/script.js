@@ -69,7 +69,7 @@ function playersInfoPrint(attendanceListArr){
     }
     playersInfo += "총원 ("+attendanceListArr.length+")\n\n"
     for(var i=playersInfoArr.length-1;i>0;i--){
-        playersInfo += (tierName[i]+"("+(playersInfoArr.length-i)+") "+ playersInfoArr[i]+"\n");
+        playersInfo += (tierName[i]+"("+i+") "+ playersInfoArr[i]+"\n");
     }
     if(playersInfoArr[0].length>0)
         playersInfo += ("\n"+tierName[0]+" "+playersInfoArr[i]+"\n");
