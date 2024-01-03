@@ -249,6 +249,7 @@ function memberListTeamChange() {
 }
 
 function memberListPrintToJson() {
+    alert("총원 : " + Object.keys(memberInfo).length);
     $("#memberInfoBox").val(JSON.stringify(memberInfo));
 }
 
