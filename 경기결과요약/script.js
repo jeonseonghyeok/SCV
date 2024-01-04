@@ -40,14 +40,14 @@ function GameResultDecomposition() {
 	// 로컬 스토리지에 데이터 저장
 	  localStorage.setItem('playResult', $("#playResult").val());
   	// 괄호 내 문자 포함한 경우(게or왼or오) 제
-	//VS(대소문자 구분 없이) 지우고,이름 외자인 인원 이름 내 공백제거, 줄바꿈제거 후, X경기 기준으로 분해
-  	//결과적으로 점수와 명단만 남음 ex)이용대 유연성 (20) 최솔규 김원호
-	  var playResultList = $("#playResult").val().replace(/VS/gi, " ").replace(/이 +현/g, "이현").replace(/박 +찬/g, "박찬").replace(/김 +진/g, "김진").replace(/\n/g, "").split(/\d{1,2}경기 /g);
-	  var players;
-	  winnerArr = [];
-//	  var reg = /\s*\(\d{1,2}\)/g;//(15)와 같이 점수를 포함한 괄호를 찾아 split
-	  var reg = /\s*\(승\)/g;//'(승)'괄호를 찾아 split
-	  var autoCalResult = "";//자동계산결과
+	var playResult=$("#playResult").val(); 
+	//1경기 포함하며 이전텍스트 모두 제거 후 'n경기' 기준으로 나누어서 리스트생성
+  	var playResultList = playResult.substring(playResult.indexOf('1경기')+4).replace(/VS/gi, " ").replace(/\n/g, "").split(/\d{1,2}경기 /g);
+  	var players;
+  	winnerArr = [];
+	//var reg = /\s*\(\d{1,2}\)/g;//(15)와 같이 점수를 포함한 괄호를 찾아 split
+  	var reg = /\s*\(승\)/g;//'(승)'괄호를 찾아 split
+	var autoCalResult = "";//자동계산결과
 	  
 	  playResultList.forEach((e,index) => {
 	    if (e != "") {
