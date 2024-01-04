@@ -42,7 +42,7 @@ function GameResultDecomposition() {
   	// 괄호 내 문자 포함한 경우(게or왼or오) 제
 	var playResult=$("#playResult").val(); 
 	//1경기 포함하며 이전텍스트 모두 제거 후 'n경기' 기준으로 나누어서 리스트생성
-  	var playResultList = playResult.substring(playResult.indexOf('1경기')+4).replace(/VS/gi, " ").replace(/\n/g, "").split(/\d{1,2}경기 /g);
+  	var playResultList = playResult.substring(playResult.indexOf('1경기')).replace(/VS/gi, " ").replace(/\n/g, "").split(/\d{1,2}경기 /g);
   	var players;
   	winnerArr = [];
 	//var reg = /\s*\(\d{1,2}\)/g;//(15)와 같이 점수를 포함한 괄호를 찾아 split
@@ -58,11 +58,9 @@ function GameResultDecomposition() {
 	        alert("승리팀 분석 실패\n" + e);
 	      else if (e.search(reg) < 12) {//왼쪽 승(인덱스 값 7~9 예상)
 	    	  autoCalResult += (index+'경기 '+players[0] +' '+ players[1]+'('+winPointGive(players,0)+')' + ' VS ' + players[2] +' '+ players[3]+'\n');
-//	    	  winningScoreCount(players,0,parseInt(e.match(reg)[0].match(/\d+/)[0]));
 	      }
 	      else {//오른쪽 승
 	    	  autoCalResult += (index+'경기 '+players[0] +' '+ players[1] + ' VS ' + players[2] +' '+ players[3]+'('+winPointGive(players,1)+')'+'\n');
-//	    	  winningScoreCount(players,1,parseInt(e.match(reg)[0].match(/\d+/)[0]));
 	      }
 	
 	    }
@@ -72,7 +70,7 @@ function GameResultDecomposition() {
 	
 	  $("#winnerSortResult").val(autoCalResult);
 	  winResultPrint(winnerList);
-	
+	  copyText($("#winnerSortResult").val());
 	  $("#saveForm").show();
 
 }
@@ -303,5 +301,14 @@ function memberTierChange(name) {
     		return 0;
     }
     return 1;
+}
+
+//새로운 임시 요소를 만들어 텍스트를 복사를 수행하고 제거
+function copyText(textToCopy) {
+    var tempInput = $('<textarea>');
+    $('body').append(tempInput);
+    tempInput.val(textToCopy).select();
+    document.execCommand('copy');
+	tempInput.remove();
 }
 
