@@ -51,7 +51,7 @@ function GameCreate() {
 	playListContent += (playersInfoPrint(attendanceListArr)+"\n");
 	playListContent += playList;
 	$("#playList").val(playListContent);
-
+	copyText(playListContent);
 }
 function playersInfoPrint(attendanceListArr){
     const tierName = ['🏸','브','실','골','플','다','마'];
@@ -135,6 +135,15 @@ function getPlayTime() {
 	else
 		formattedTime = ("오전 9시 30분");
     return formattedDate + " " +formattedTime;
+}
+
+//새로운 임시 요소를 만들어 텍스트를 복사를 수행하고 제거
+function copyText(textToCopy) {
+    var tempInput = $('<textarea>');
+    $('body').append(tempInput);
+    tempInput.val(textToCopy).select();
+    document.execCommand('copy');
+	tempInput.remove();
 }
 
 
