@@ -146,4 +146,6 @@ function copyText(textToCopy) {
 	tempInput.remove();
 }
 
-
+function replaceInput(){
+	$("#attendanceList").val($("#attendanceList").val().replaceAll(' ','\n'));
+}
