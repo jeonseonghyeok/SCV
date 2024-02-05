@@ -276,7 +276,8 @@ function memberListPrintOrderByTier(){
 	      }
 	      printContent += '─────────────────────\n\n';
     }
-    printContent += ('누락 : ' + memberArr[0][0]);
+	if(memberArr[0][0]=='')
+    		printContent += ('누락 : ' + memberArr[0][0]);
     $("#memberInfoBox").val(printContent);
 }
 
