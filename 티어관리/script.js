@@ -83,7 +83,7 @@ function memberSexChange(name) {
 
 function memberTierChange(name) {
     promptMessege = '티어를 입력하시오.(1~6)\n';
-    promptMessege += ' - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 에메랄드 : 5 / 마스터 : 6';
+    promptMessege += ' - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 다이아 : 5 / 마스터 : 6';
     inputString = prompt(promptMessege, '');
     //console.log(inputString);
     if (inputString == null || inputString == "") {
@@ -139,10 +139,10 @@ function memberInfoPrint(searchName) {
             playerInfo += '플레티넘';
             break;
         case 5:
-            playerInfo += '마스터';
+            playerInfo += '다이아';
             break;
         case 6:
-            playerInfo += '다이아';
+            playerInfo += '마스터';
             break;
         default:
             playerInfo += '미정';
@@ -171,7 +171,7 @@ function memberListTierChange() {
         return 0;
     } else {
         promptMessege = '티어를 입력하시오.(1~6)\n';
-        promptMessege += ' - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 에메랄드 : 5 / 마스터 : 6';
+        promptMessege += ' - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 다이아 : 5 / 마스터 : 6';
         inputString = prompt(promptMessege, '');
         //console.log(inputString);
         if (inputString == null || inputString == "") {
