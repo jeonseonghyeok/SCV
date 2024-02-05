@@ -19,10 +19,9 @@ function memberInfoImport(){
 function GameCreate() {
 	var attendanceList = $("#attendanceList").val().includes('<참석명단>') ? $("#attendanceList").val().split('<참석명단>')[1] : $("#attendanceList").val();
 	var attendanceListArr = attendanceList
-	.replace(/\(\D.*?\)/g, "")  // 괄호 안의 내용 제거
+	.replace(/\(첫\)/g, "")  // 신입표시 제거
 	.replace(/\d{1,2}\./g, "")  // 숫자와 마침표 제거
 	.replace(/콕\d{1}/g, "")  // 숫자와 마침표 제거
-	.replace(/🏸/g, "")	//신입표시 제거
 	.replace(/ /g, "")	//띄어쓰기 제거
 	.split("\n")  // 개행 문자로 나누어 배열 생성
 	.filter(function(value) {
