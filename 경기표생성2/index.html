@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경기표생성</title>
+</head>
+
+<body>
+    <div id="playerInputDiv" class="group">
+        <div class="title">출석표(입력)</div>
+	    <textarea id="attendanceList" placeholder="1. 전성혁&#10;2. 강선문&#10;3. 방한결&#10;4. 이정석" >강선문 정상열 노우석 송인혁</textarea>
+				
+	    <button onClick="GameCreate()">경기 배치</button>
+		<button onClick="replaceInput()">띄어쓰기->줄바꿈 변환</button>
+    </div>
+    
+    <div id="GameMatchDiv" class="group" style="display: none;">
+	   	<div class="title">티어정보</div>
+	   	<textarea id="tierInfo" readonly=""></textarea>
+
+ 		<div class="title">경기 배치</div>
+		<div id="seatContainer" class="group">
+		</div>
+    <button onClick="GameCreate()">랜덤재배치</button>
+    <button onClick="gamePrint()">경기표 생성</button>
+    </div>
+<!-- 	<button id="tbnInputClear" onClick="cancel()">취소</button> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</body>
+
+</html>
