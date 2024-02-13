@@ -1,0 +1,57 @@
+body {
+	margin: 30px;
+}
+
+table {
+	/* border: 1px solid black; */
+	width: 100%;
+	table-layout: fixed;
+}
+
+th {
+	text-align: center;
+	border: 1px solid black;
+}
+textArea {
+	width: 98%;
+}
+#attendanceList {
+	height: 250px;
+}
+#tierInfo {
+	height: 90px;
+}
+#seatContainer div {
+	text-align: center;
+}
+
+.seat {
+	width: 50px;
+	height: 25px;
+	background-color: #ccc;
+	margin: 5px;
+	display: inline-block;
+	cursor: pointer;
+	line-height: 25px; /* 텍스트 세로 가운데 정렬 */
+	font-size: 12px;
+}
+div.group {
+    border: 1px solid black;
+    padding: 2px;
+    margin-bottom: 10px;
+  }
+div.title {
+    border: 1px solid black;
+    padding: 1px;
+    margin-bottom: 2px;
+  }
+/* .row { */
+/* 	clear: both; */
+/* 	margin-bottom: 20px; 줄 간격 조절 */
+/* } */
+
+.row::after {
+	content: "";
+	display: table;
+	clear: both;
+}
