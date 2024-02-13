@@ -5,62 +5,48 @@ window.onload = function(){
     dragAndDrop();
 }
 
-function dragAndDrop(){
-	  $("#sortable-grid").sortable({
-		    connectWith: "#sortable-grid",
-		    forcePlaceholderSize: true, // 아이템 자동밀려남 방지
-		    start: function(event, ui) {
-				console.log("s");
-		      // 기존 위치 저장
-		      ui.item.data('start-index', ui.item.index());
-		      console.log("start");
-		    },
-		    stop: function(event, ui) {
-		    	console.log("stop");
-		      // 드롭된 위치로 이동
-		      var startIndex = ui.item.data('start-index');
-		      var newIndex = ui.item.index();
-
-		      if (startIndex !== newIndex) {
-		        // 위치가 변경된 경우에만 실행
-		        var movedItem = ui.item.clone();
-		        ui.item.remove();
-		        $("#sortable-grid").eq(newIndex).after(movedItem);
-		      }
-		    }
-		  });
-		  $("#sortable-grid").disableSelection();
-		  
+function dragAndDrop(){		  
 		  $('.seat').draggable({
-		      revert: true
-		    });
-		    
-		    $('.seat').droppable({
-		      drop: function(event, ui) {
-		        var draggedSeat = ui.draggable;
-		        var droppedSeat = $(this);
-		        
-		        var tempText = draggedSeat.text();
-		        draggedSeat.text(droppedSeat.text());
-		        droppedSeat.text(tempText);
-		        
-		        draggedSeat.removeClass('selected');
-		      }
-		    });
-		    
-		    $('.seat').click(function() {
-		      $('.seat').removeClass('selected');
-		      $(this).addClass('selected');
-		    });
-			
-		   $('#showResult').click(function() {
-		      var result = '';
-		      $('.seat').each(function() {
-		        result += $(this).text() + '<br>';
-		      });
-		      $('#result').html(result);
-		    }); 
-			
+			  revert: true
+		  });
+
+		  $('.seat').droppable({
+			  drop: function(event, ui) {
+				  var draggedSeat = ui.draggable;
+				  var droppedSeat = $(this);
+
+				  var tempText = draggedSeat.text();
+				  draggedSeat.text(droppedSeat.text());
+				  droppedSeat.text(tempText);
+
+				  draggedSeat.removeClass('selected');
+			  }
+		  });
+
+		  $('.seat').click(function() {
+			  $('.seat').removeClass('selected');
+			  $(this).addClass('selected');
+		  });
+		  $('.seat').on('touchstart', function(event) {
+			  var touchedSeat = $(this);
+			  touchedSeat.addClass('selected');
+
+			  touchedSeat.on('touchmove', function(event) {
+
+			  });
+
+			  touchedSeat.on('touchend', function(event) {
+				  var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+				  var droppedSeat = document.elementFromPoint(touch.pageX, touch.pageY);
+				  if (droppedSeat && $(droppedSeat).hasClass('seat')) {
+					  var tempText = touchedSeat.text();
+					  touchedSeat.text($(droppedSeat).text());
+					  $(droppedSeat).text(tempText);
+				  }
+				  touchedSeat.removeClass('selected');
+				  touchedSeat.off('touchmove touchend');
+			  });
+		  });
 }
 function memberInfoImport(){
 	$.ajax({
