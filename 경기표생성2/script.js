@@ -32,7 +32,7 @@ function dragAndDrop(){
 			  touchedSeat.addClass('selected');
 
 			  touchedSeat.on('touchmove', function(event) {
-
+				  event.preventDefault();
 			  });
 
 			  touchedSeat.on('touchend', function(event) {
