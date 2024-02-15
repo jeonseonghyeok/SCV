@@ -45,6 +45,7 @@ function dragAndDrop(){
 				  }
 				  touchedSeat.removeClass('selected');
 				  touchedSeat.off('touchmove touchend');
+				  balanceEvaluation()
 			  });
 		  });
 }
@@ -101,6 +102,7 @@ function GameCreate() {
 	$("#tierInfo").val(playersInfoPrint(attendanceListArr));
 	$('#GameMatchDiv').show();
 	$('#playerInputDiv').hide();
+	balanceEvaluation()
 
 //
 //	// 2차원 배열 순환
@@ -236,3 +238,59 @@ function gamePrint(){
 	}
 	autoCopy(playListContent);
 }
+function balanceEvaluation(){
+	//밸런스 구분  기본으로 변경
+	$('#seatContainer div.seat').css('background-color', '#CCC');
+	
+	// 경기배정표를 저장할 배열
+    let playListArr = [];
+    $('#seatContainer .seat').each(function() {
+    	playListArr.push($(this).text());
+    });
+    for (let i = 0; i < playListArr.length/4; i++) {
+        const sliceStart = i * 4;
+        const sliceEnd = sliceStart + 4;
+        const leftWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 0);
+        const rightWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 1);
+        console.log(leftWinPoint + ' VS ' + rightWinPoint);
+        if (leftWinPoint - rightWinPoint >= 5) {
+        	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(1)').css('background-color', '#F33');
+        	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(2)').css('background-color', '#F33');
+        }
+        else if(leftWinPoint - rightWinPoint <= -5) {
+        	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(3)').css('background-color', '#F33');
+        	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(4)').css('background-color', '#F33');
+        }
+	}
+}
+function winPointCalculate(players,winTeam){
+	var score = 0;//점수
+	var multiple = 1;//성비에 따른 배수
+	
+	//승리 결과에 맞추어 우승점수 계산
+	switch (winTeam) {
+		case 0:
+			//성비에 따른 배수 계산
+			multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+			multiple -= (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
+			if(multiple<1)multiple=1;
+			
+			//위 계산된 배수를 이용한 합산
+			score += (multiple * memberInfo[players[2]].tier);
+			score += (multiple * memberInfo[players[3]].tier)
+			break;
+		case 1:
+			//성비에 따른 배수 계산
+			multiple += (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
+			multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+			if(multiple<1)multiple=1;
+			
+			//위 계산된 배수를 이용한 합산
+			score += (multiple * memberInfo[players[0]].tier);
+			score += (multiple * memberInfo[players[1]].tier)
+			break;
+		default:
+				alert("오류발생");
+	}
+	return score;
+}	
