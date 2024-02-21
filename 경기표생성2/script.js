@@ -253,11 +253,11 @@ function balanceEvaluation(){
         const leftWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 0);
         const rightWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 1);
         console.log(leftWinPoint + ' VS ' + rightWinPoint);
-        if (leftWinPoint - rightWinPoint >= 5) {
+        if (leftWinPoint - rightWinPoint <= -2) {
         	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(1)').css('background-color', '#F33');
         	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(2)').css('background-color', '#F33');
         }
-        else if(leftWinPoint - rightWinPoint <= -5) {
+        else if(leftWinPoint - rightWinPoint >= 2) {
         	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(3)').css('background-color', '#F33');
         	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(4)').css('background-color', '#F33');
         }
@@ -267,30 +267,43 @@ function winPointCalculate(players,winTeam){
 	var score = 0;//점수
 	var multiple = 1;//성비에 따른 배수
 	
-	//승리 결과에 맞추어 우승점수 계산
-	switch (winTeam) {
-		case 0:
-			//성비에 따른 배수 계산
-			multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
-			multiple -= (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
-			if(multiple<1)multiple=1;
-			
-			//위 계산된 배수를 이용한 합산
-			score += (multiple * memberInfo[players[2]].tier);
-			score += (multiple * memberInfo[players[3]].tier)
-			break;
-		case 1:
-			//성비에 따른 배수 계산
-			multiple += (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
-			multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
-			if(multiple<1)multiple=1;
-			
-			//위 계산된 배수를 이용한 합산
-			score += (multiple * memberInfo[players[0]].tier);
-			score += (multiple * memberInfo[players[1]].tier)
-			break;
-		default:
-				alert("오류발생");
+//	//승리 결과에 맞추어 우승점수 계산
+//	switch (winTeam) {
+//		case 0:
+//			//성비에 따른 배수 계산
+//			multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+//			multiple -= (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
+//			if(multiple<1)multiple=1;
+//			
+//			//위 계산된 배수를 이용한 합산
+//			score += (multiple * memberInfo[players[2]].tier);
+//			score += (multiple * memberInfo[players[3]].tier)
+//			break;
+//		case 1:
+//			//성비에 따른 배수 계산
+//			multiple += (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
+//			multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+//			if(multiple<1)multiple=1;
+//			
+//			//위 계산된 배수를 이용한 합산
+//			score += (multiple * memberInfo[players[0]].tier);
+//			score += (multiple * memberInfo[players[1]].tier)
+//			break;
+//		default:
+//				alert("오류발생");
+		
+		//승리 결과에 맞추어 우승점수 계산
+		switch (winTeam) {
+			case 0:
+				score += (memberInfo[players[2]].tier-memberInfo[players[2]].sex);
+				score += (memberInfo[players[3]].tier-memberInfo[players[3]].sex);
+				break;
+			case 1:
+				score += (memberInfo[players[0]].tier-memberInfo[players[0]].sex);
+				score += (memberInfo[players[1]].tier-memberInfo[players[1]].sex);
+				break;
+			default:
+					alert("오류발생");
 	}
 	return score;
 }	
