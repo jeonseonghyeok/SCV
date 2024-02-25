@@ -2,7 +2,6 @@ var memberInfo;
 var attendanceListArr;
 window.onload = function(){
     memberInfoImport();
-    dragAndDrop();
 }
 
 function dragAndDrop(){		  
@@ -20,6 +19,7 @@ function dragAndDrop(){
 				  droppedSeat.text(tempText);
 
 				  draggedSeat.removeClass('selected');
+				  balanceEvaluation();
 			  }
 		  });
 
@@ -45,7 +45,7 @@ function dragAndDrop(){
 				  }
 				  touchedSeat.removeClass('selected');
 				  touchedSeat.off('touchmove touchend');
-				  balanceEvaluation()
+				  balanceEvaluation();
 			  });
 		  });
 }
@@ -63,20 +63,33 @@ function memberInfoImport(){
 }
 function GameCreate() {
 	var attendanceList = $("#attendanceList").val().includes('<참석명단>') ? $("#attendanceList").val().split('<참석명단>')[1] : $("#attendanceList").val();
+	let guestNum = 1;
 	attendanceListArr = attendanceList
 	.replace(/\(첫\)/g, "")  // 신입표시 제거
 	.replace(/\d{1,2}\./g, "")  // 숫자와 마침표 제거
-	.replace(/콕\d{1}/g, "")  // 숫자와 마침표 제거
+	.replace(/콕\d{1}/g, "")  // 콕N개 제거
 	.replace(/ /g, "")	//띄어쓰기 제거
 	.split("\n")  // 개행 문자로 나누어 배열 생성
 	.filter(function(value) {
 		return value.trim() !== ''; // 값이 공백이 아닌 경우에만 포함
-	});
+	}).map(name => {
+        if (/\(게\d*\)$/.test(name)) {
+          return `게스트${guestNum++}`;
+        }
+        return name;
+      });
 
 	if(attendanceListArr.length<4){
 		alert("최소 4인 입력필요");
 		return 0;
 	}
+	attendanceListArr.forEach(function(player){
+	    if(memberInfo[player] == undefined){
+        				alert("'"+player+"'은(는) 명단에 존재하지 않습니다.\n 임시로 정보를 저장합니다.")
+        				if(memberSignUp(player)); //임시 가입처리, 실패 시 종료
+        				else return 0;
+        }
+	});
 	//명단 두 배로 늘려서 복제
 	var readyPlayerListArr = attendanceListArr.concat(attendanceListArr);
 	//인원이 홀수인 경우 출석이 빠른 2인 3회경기
@@ -250,8 +263,8 @@ function balanceEvaluation(){
     for (let i = 0; i < playListArr.length/4; i++) {
         const sliceStart = i * 4;
         const sliceEnd = sliceStart + 4;
-        const leftWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 0);
-        const rightWinPoint = winPointCalculate(playListArr.slice(sliceStart, sliceEnd), 1);
+        const leftWinPoint = rivalLevelCalculate(playListArr.slice(sliceStart, sliceEnd), 0);
+        const rightWinPoint = rivalLevelCalculate(playListArr.slice(sliceStart, sliceEnd), 1);
         console.log(leftWinPoint + ' VS ' + rightWinPoint);
         if (leftWinPoint - rightWinPoint <= -2) {
         	$('#seatContainer div.row:nth-child('+(i+1)+') div.seat:nth-child(1)').css('background-color', '#F33');
@@ -263,36 +276,10 @@ function balanceEvaluation(){
         }
 	}
 }
-function winPointCalculate(players,winTeam){
+function rivalLevelCalculate(players,winTeam){
 	var score = 0;//점수
-	var multiple = 1;//성비에 따른 배수
-	
-//	//승리 결과에 맞추어 우승점수 계산
-//	switch (winTeam) {
-//		case 0:
-//			//성비에 따른 배수 계산
-//			multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
-//			multiple -= (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
-//			if(multiple<1)multiple=1;
-//			
-//			//위 계산된 배수를 이용한 합산
-//			score += (multiple * memberInfo[players[2]].tier);
-//			score += (multiple * memberInfo[players[3]].tier)
-//			break;
-//		case 1:
-//			//성비에 따른 배수 계산
-//			multiple += (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
-//			multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
-//			if(multiple<1)multiple=1;
-//			
-//			//위 계산된 배수를 이용한 합산
-//			score += (multiple * memberInfo[players[0]].tier);
-//			score += (multiple * memberInfo[players[1]].tier)
-//			break;
-//		default:
-//				alert("오류발생");
 		
-		//승리 결과에 맞추어 우승점수 계산
+		//(티어-성별)값을 통해 상대의 수준 계산
 		switch (winTeam) {
 			case 0:
 				score += (memberInfo[players[2]].tier-memberInfo[players[2]].sex);
@@ -307,3 +294,61 @@ function winPointCalculate(players,winTeam){
 	}
 	return score;
 }	
+
+function memberSignUp(name) {
+    let promptMessege;
+    var inputString;
+
+    memberInfo[name] = {};
+
+    if (memberSexChange(name) && memberTierChange(name)) {
+        alert("완료되었습니다.");
+        return 1;
+    }
+    else{
+    	delete(memberInfo[name]);
+    	return 0;
+    }
+}
+
+
+function memberSexChange(name) {
+    let promptMessege;
+    var inputString;
+
+    promptMessege = '성별을 입력하시오.\n';
+    promptMessege += '(남성:1 / 여성:2)';
+    inputString = prompt(promptMessege, '');
+    if (inputString == null || inputString == "") {
+        return 0;
+    }
+    else {
+    	memberInfo[name].sex = Number(inputString);
+        return 1;
+    }
+
+
+}
+
+function memberTierChange(name) {
+    promptMessege = '티어를 입력하시오.(1~6)\n';
+    promptMessege += ' - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 에메랄드 : 5 / 마스터 : 6';
+    inputString = prompt(promptMessege, '');
+    //console.log(inputString);
+    if (inputString == null || inputString == "") {
+        return 0;
+    }
+    else{
+    	var inputTierLever = Number(inputString);
+    	if(inputTierLever == -1){
+    		delete(memberInfo[name]);
+    		alert("명단 삭제 완료");
+            $("#memberInfoBox").val("");
+    	}
+    	else if(inputTierLever >= 0 && inputTierLever <=6)
+    		memberInfo[name].tier = inputTierLever;
+    	else
+    		return 0;
+    }
+    return 1;
+}
