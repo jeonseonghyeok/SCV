@@ -272,8 +272,7 @@ function gamePrint() {
 }
 function balanceEvaluation() {
   //밸런스 구분  기본으로 변경
-  // $("#seatContainer div.seat").css("background-color", "#CCC");
-
+  $("#seatContainer div.seat").removeClass("unbalanced");
   // 경기배정표를 저장할 배열
   let playListArr = [];
   $("#seatContainer .seat").each(function () {
