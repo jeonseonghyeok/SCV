@@ -12,7 +12,35 @@
 </head>
 
 <body>
+<!-- firestore 연동을 통해 데이터 불러오기 -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDx54QWwFE0eLnOb-Yhe5BKYQtnfAY3cR4",
+  authDomain: "badminton-e0c7e.firebaseapp.com",
+  projectId: "badminton-e0c7e",
+  storageBucket: "badminton-e0c7e.appspot.com",
+  messagingSenderId: "1084741124489",
+  appId: "1:1084741124489:web:de0d6808e4903ff7d3e158",
+  measurementId: "G-CCYBHSECVC"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const analytics = getAnalytics(app);
+const col = collection(db, 'TierInfo');
+const snapshot = await getDocs(col);
+const tierInfo = snapshot.docs.map(doc => doc.data());
+memberInfo = JSON.parse(tierInfo[tierInfo.length-1].json);
+
+</script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script> -->
+<!--   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script> -->
   <script src="script.js"></script>
   <link rel="stylesheet" href="style.css">
     <table id="teamTierManage" style="display: none;">
