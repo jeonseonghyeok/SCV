@@ -366,7 +366,7 @@ function memberSexChange(name) {
 function memberTierChange(name) {
   promptMessege = "티어를 입력하시오.(1~6)\n";
   promptMessege +=
-    " - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 에메랄드 : 5 / 마스터 : 6";
+    " - 브론즈 : 1 / 실버 : 2 / 골드 : 3\n - 플레티넘 : 4 / 다이아 : 5 / 마스터 : 6";
   inputString = prompt(promptMessege, "");
   //console.log(inputString);
   if (inputString == null || inputString == "") {
@@ -383,3 +383,4 @@ function memberTierChange(name) {
   }
   return 1;
 }
+
