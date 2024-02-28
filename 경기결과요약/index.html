@@ -9,6 +9,21 @@
 </head>
 
 <body>
+<!-- firestore 연동을 통해 데이터 불러오기 -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+
+// Initialize Firebase
+const app = initializeApp({projectId: "badminton-e0c7e"});
+const db = getFirestore(app);
+const col = collection(db, 'TierInfo');
+const snapshot = await getDocs(col);
+const tierInfo = snapshot.docs.map(doc => doc.data());
+memberInfo = JSON.parse(tierInfo[tierInfo.length-1].json);
+</script>
+
     <div>
         <Table>
             <!-- <tr>

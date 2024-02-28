@@ -5,7 +5,7 @@ var autoCalResult;
 
 window.onload = function() {
     $("#playResult").val(localStorage.getItem('playResult'));
-    memberInfoImport();
+//    memberInfoImport();
     initializeDateTime();
 };
 
@@ -25,7 +25,6 @@ function initializeDateTime() {
 
 
 function memberInfoImport() {
-//	memberInfo = {"김준선":{"tier":6,"sex":1},"이현":{"tier":4},"이승재":{"tier":6,"sex":1},"김태수":{"tier":3},"김규혁":{"tier":6,"sex":1},"이성훈":{"tier":5,"sex":1},"박준의":{"tier":3},"김대원":{"tier":3,"sex":1},"정해준":{"tier":5,"sex":1},"최민선":{"tier":3,"sex":2},"노우석":{"tier":4,"sex":1},"서광철":{"tier":5,"sex":1},"최진영":{"tier":4,"sex":1},"박형기":{"tier":2,"sex":1},"장익석":{"tier":2,"sex":1},"고은비":{"tier":3,"sex":2},"이익제":{"tier":2,"sex":1},"김성권":{"tier":4,"sex":1},"선우윤호":{"tier":1,"sex":1},"정창수":{"tier":3,"sex":1},"최보경":{"tier":2},"윤효진":{"tier":2,"sex":2},"문정경":{"tier":2,"sex":2},"홍봄이":{"tier":1,"sex":2},"전성혁":{"tier":3,"sex":1},"김진":{"tier":4,"sex":1},"강선문":{"tier":4,"sex":1},"배종천":{"tier":3,"sex":1},"신재성":{"tier":5,"sex":1},"이정석":{"tier":4,"sex":1},"서승범":{"tier":2,"sex":1},"홍지수":{"tier":2,"sex":2},"이규현":{"tier":1,"sex":1},"방희연":{"tier":1,"sex":2},"박찬":{"tier":1,"sex":1},"김대원2":{"tier":1,"sex":1},"강지수":{"tier":2,"sex":2},"오종혁":{"tier":2,"sex":1},"이창빈":{"tier":3,"sex":1},"강래엽":{"tier":2,"sex":1},"송승범":{"tier":2,"sex":1},"류시원":{"tier":1},"박종찬":{"tier":3,"sex":1},"방한결":{"tier":5,"sex":2},"유연진":{"tier":1,"sex":1},"정상열":{"tier":4,"sex":1},"배현민":{"tier":1,"sex":1},"심예림":{"tier":4,"sex":2},"박주성":{"tier":1,"sex":1},"윤윤하":{"tier":4,"sex":2},"송지우":{"tier":4,"sex":1},"장철원":{"tier":1,"sex":1},"전나원":{"tier":1,"sex":2},"박우영":{"tier":2,"sex":1},"정우민":{"tier":1,"sex":1},"김남우":{"tier":5,"sex":2},"송인혁":{"tier":2,"sex":1},"최용진":{"tier":3,"sex":1},"이승채":{"sex":1,"tier":2},"이현재":{"sex":1,"tier":3}};
 	$.ajax({
 		type: "GET",
 		async: false, //동기방식으로 사용

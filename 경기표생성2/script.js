@@ -1,7 +1,7 @@
 var memberInfo;
 var attendanceListArr;
 window.onload = function () {
-  memberInfoImport();
+//  memberInfoImport();
 };
 
 function dragAndDrop() {

@@ -12,11 +12,33 @@
 </head>
 
 <body>
+
+<!-- 
+<script type="module">
+import { getCities } from "./readFireStore.js";
+console.log(getCities());
+</script>
+ -->
+ 
 <!-- firestore 연동을 통해 데이터 불러오기 -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+
+// Initialize Firebase
+const app = initializeApp({projectId: "badminton-e0c7e"});
+const db = getFirestore(app);
+const col = collection(db, 'TierInfo');
+const snapshot = await getDocs(col);
+const tierInfo = snapshot.docs.map(doc => doc.data());
+memberInfo = JSON.parse(tierInfo[tierInfo.length-1].json);
+</script>
+
+<!-- firestore 연동을 통해 데이터 넣어주기
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDx54QWwFE0eLnOb-Yhe5BKYQtnfAY3cR4",
@@ -31,18 +53,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
 const col = collection(db, 'TierInfo');
-const snapshot = await getDocs(col);
-const tierInfo = snapshot.docs.map(doc => doc.data());
-memberInfo = JSON.parse(tierInfo[tierInfo.length-1].json);
+const cityRef = doc(db, 'TierInfo', 'test');
+setDoc(cityRef, { capital: true }, { merge: true });
 
-</script>
+</script>-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!--   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script> -->
-<!--   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script> -->
   <script src="script.js"></script>
   <link rel="stylesheet" href="style.css">
+  <button id = "testId">테스트</button>
     <table id="teamTierManage" style="display: none;">
       <tr>
         <td>
