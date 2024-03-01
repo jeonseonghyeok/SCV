@@ -32,7 +32,7 @@ const db = getFirestore(app);
 const col = collection(db, 'TierInfo');
 const snapshot = await getDocs(col);
 const tierInfo = snapshot.docs.map(doc => doc.data());
-memberInfo = JSON.parse(tierInfo[tierInfo.length-1].json);
+memberInfo = JSON.parse(tierInfo[0].json);
 </script>
 
 <!-- firestore 연동을 통해 데이터 넣어주기
