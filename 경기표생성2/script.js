@@ -28,28 +28,53 @@ function dragAndDrop() {
     $(this).addClass("selected");
   });
   $(".seat").on("touchstart", function (event) {
-    var touchedSeat = $(this);
+    let touchedSeat = $(this);
+    let originRect = touchedSeat[0].getBoundingClientRect();
     touchedSeat.addClass("selected");
 
     touchedSeat.on("touchmove", function (event) {
       event.preventDefault();
+      let touch = event.originalEvent.touches[0];
+      touchedSeat.offset({
+        top: touch.pageY - touchedSeat.outerHeight() / 2,
+        left: touch.pageX - touchedSeat.outerWidth() / 2,
+      });
     });
 
     touchedSeat.on("touchend", function (event) {
-      var touch =
-        event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
-      var droppedSeat = document.elementFromPoint(touch.pageX, touch.pageY);
+      let touch = event.originalEvent.changedTouches[0];
+      let droppedSeats = document.elementsFromPoint(touch.pageX, touch.pageY);
+      let droppedSeat = null;
+
+      droppedSeat = droppedSeats.find(
+        (seat) =>
+          seat.classList.contains("seat") &&
+          !seat.classList.contains("selected")
+      );
+
       if (droppedSeat && $(droppedSeat).hasClass("seat")) {
         var tempText = touchedSeat.text();
         touchedSeat.text($(droppedSeat).text());
         $(droppedSeat).text(tempText);
+        touchedSeat.removeClass("selected");
+        touchedSeat.off("touchmove touchend");
+        touchedSeat.offset({
+          top: originRect.top,
+          left: originRect.left,
+        });
+      } else {
+        touchedSeat.removeClass("selected");
+        touchedSeat.off("touchmove touchend");
+        touchedSeat.offset({
+          top: originRect.top,
+          left: originRect.left,
+        });
       }
-      touchedSeat.removeClass("selected");
-      touchedSeat.off("touchmove touchend");
       balanceEvaluation();
     });
   });
 }
+
 function memberInfoImport() {
   $.ajax({
     type: "GET",
@@ -383,4 +408,3 @@ function memberTierChange(name) {
   }
   return 1;
 }
-
