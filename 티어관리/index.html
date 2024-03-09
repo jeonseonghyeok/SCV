@@ -13,26 +13,21 @@
 
 <body>
 
-<!-- 
-<script type="module">
-import { getCities } from "./readFireStore.js";
-console.log(getCities());
-</script>
- -->
- 
 <!-- firestore 연동을 통해 데이터 불러오기 -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
 
 // Initialize Firebase
+debugger;
 const app = initializeApp({projectId: "badminton-e0c7e"});
 const db = getFirestore(app);
-const col = collection(db, 'TierInfo');
+const col = query(collection(db, 'TierInfo'),orderBy('date','desc'),limit(1));
 const snapshot = await getDocs(col);
 const tierInfo = snapshot.docs.map(doc => doc.data());
 memberInfo = JSON.parse(tierInfo[0].json);
+console.log(new Date(tierInfo[0].date.seconds*1000));
 </script>
 
 <!-- firestore 연동을 통해 데이터 넣어주기
@@ -61,13 +56,12 @@ setDoc(cityRef, { capital: true }, { merge: true });
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="script.js"></script>
   <link rel="stylesheet" href="style.css">
-  <button id = "testId">테스트</button>
+<!--  <button id = "testId">테스트</button>-->
     <table id="teamTierManage" style="display: none;">
       <tr>
         <td>
           <button id = "btnMemberSearch" onClick="memberSearch()">개별조회 및 변경</button>
           <button id = "btnMembersManage" onClick="membersManage()">티어 일괄 변경</button> <br>
-<!--           <button id = "btnMembersManage" onClick="membersTeamReset()">팀 초기화</button> -->
         </td>
       </tr>
 

@@ -13,12 +13,12 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
 
 // Initialize Firebase
 const app = initializeApp({projectId: "badminton-e0c7e"});
 const db = getFirestore(app);
-const col = collection(db, 'TierInfo');
+const col = query(collection(db, 'TierInfo'),orderBy('date','desc'),limit(1));
 const snapshot = await getDocs(col);
 const tierInfo = snapshot.docs.map(doc => doc.data());
 memberInfo = JSON.parse(tierInfo[0].json);
@@ -26,14 +26,6 @@ memberInfo = JSON.parse(tierInfo[0].json);
 
     <div>
         <Table>
-            <!-- <tr>
-            <td>기존 누적 :</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><textarea id="prevInfo" style="width : 96%; height: 200px; margin: 2%;"></textarea></td>
-            <td></td>
-        </tr> -->
             <thead>
                 <tr>
                     <th>경기결과(입력)</th>
