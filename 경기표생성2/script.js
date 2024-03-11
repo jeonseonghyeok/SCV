@@ -20,6 +20,7 @@ function dragAndDrop() {
 
       draggedSeat.removeClass("selected");
       balanceEvaluation();
+      sameNameCheck();
     },
   });
 
@@ -71,6 +72,7 @@ function dragAndDrop() {
         });
       }
       balanceEvaluation();
+        sameNameCheck();
     });
   });
 }
@@ -103,6 +105,7 @@ function GameCreate() {
     })
     .map((name) => {
       if (/\(게\d*\)$/.test(name)) {
+        alert(name + " -> "+`게스트${guestNum}`);
         return `게스트${guestNum++}`;
       }
       return name;
@@ -112,19 +115,26 @@ function GameCreate() {
     alert("최소 4인 입력필요");
     return 0;
   }
+  let isSuccess = true;
+
   attendanceListArr.forEach(function (player) {
-    if (memberInfo[player] == undefined) {
+    if (isSuccess && memberInfo[player] === undefined) {
       alert(
         "'" +
           player +
           "'은(는) 명단에 존재하지 않습니다.\n 임시로 정보를 저장합니다."
       );
-      if (
-        memberSignUp(player) //임시 가입처리, 실패 시 종료
-      );
-      else return 0;
+      if (!memberSignUp(player)) {
+        isSuccess = false;
+        return;
+      }
     }
   });
+
+  if (!isSuccess) {
+    alert("임시저장을 취소하여 경기표 생성을 진행하지 않습니다.");
+    return;
+  }
   //명단 두 배로 늘려서 복제
   var readyPlayerListArr = attendanceListArr.concat(attendanceListArr);
   //인원이 홀수인 경우 출석이 빠른 2인 3회경기
@@ -264,6 +274,10 @@ function replaceInput() {
   $("#attendanceList").val($("#attendanceList").val().replaceAll(" ", "\n"));
 }
 function gamePrint() {
+  if($("#seatContainer div.seat.sameName").length>0){
+    alert("한 경기에 동일플레이어를 둘 수 없습니다.");
+    return;
+    }
   var playListContent = "";
   let gameInfoDefault = "SCV경기표🏸\n";
   gameInfoDefault += "(" + getPlayTime() + ")\n";
@@ -338,6 +352,33 @@ function balanceEvaluation() {
       ).addClass("unbalanced");
     }
   }
+}
+
+function sameNameCheck() {
+  $("#seatContainer div.seat").removeClass("sameName");
+    let playListArr = [];
+      $("#seatContainer .seat").each(function () {
+        playListArr.push($(this).text());
+      });
+      for (let i = 0; i < playListArr.length; i += 4) {
+        const occurrences = {};
+        for (const palyerName of playListArr.slice(i,i+4)){
+          if (occurrences[palyerName]) {
+            console.log("경기내 동일플레이어 존재");
+            $("#seatContainer div.row:nth-child("+i+") div.seat").removeClass("unbalanced");
+            playListArr.slice(i,i+4).forEach((element, index) => {
+                    if (element === palyerName) {
+                        console.log(i+index);
+                        $("#seatContainer div.seat").eq(i+index).addClass("sameName");
+//                        $("div.seat").eq(i+index).removeClass("unbalanced");
+                    }
+                });
+          }
+          // 등장하지 않았던 요소라면 등장 횟수를 기록합니다.
+          occurrences[palyerName] = true;
+        };
+
+      }
 }
 function rivalLevelCalculate(players, winTeam) {
   var score = 0; //점수

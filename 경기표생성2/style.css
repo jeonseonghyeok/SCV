@@ -94,7 +94,11 @@ textarea {
   border: 1px solid #ff6666;
   color: #ff6666;
 }
-
+.sameName {
+  border: 2px solid #AA1313;
+  color: #AA1313;
+  font-weight: 600;
+}
 div.group {
   border: 0.5px solid black;
   padding: 2px;
