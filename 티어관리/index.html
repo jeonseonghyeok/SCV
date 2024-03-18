@@ -17,17 +17,44 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
 
 // Initialize Firebase
-debugger;
 const app = initializeApp({projectId: "badminton-e0c7e"});
 const db = getFirestore(app);
 const col = query(collection(db, 'TierInfo'),orderBy('date','desc'),limit(1));
 const snapshot = await getDocs(col);
 const tierInfo = snapshot.docs.map(doc => doc.data());
 memberInfo = JSON.parse(tierInfo[0].json);
-console.log(new Date(tierInfo[0].date.seconds*1000));
+
+// "saveMemberInfo" 버튼에 클릭 이벤트 리스너 추가
+document.getElementById("saveMemberInfo").addEventListener("click", async function() {
+    try {
+        // 추가할 데이터
+		var writer = localStorage.getItem("writer");
+		if(writer == null){
+			var inputName = prompt("작성자 성함을 기입해주세요.");
+			if(inputName != null && inputName != ""){
+				writer = inputName;
+				localStorage.setItem("writer",writer);
+			}
+		else
+			return 0;
+		}
+		if(writer != null){
+        	const cityRef = await addDoc(collection(db, "TierInfo"), {
+           		json : JSON.stringify(memberInfo),
+				writer : writer,
+				date : serverTimestamp()
+       		});
+        	console.log("Document written with ID: ", cityRef.id);
+			alert("등록 완료");
+    	}
+	} catch (error) {
+        	console.error("Error adding document: ", error);
+	}
+});
+console.log("회원정보 최신 날짜 : " + tierInfo[0].date.toDate());
 </script>
 
 <!-- firestore 연동을 통해 데이터 넣어주기
@@ -72,9 +99,10 @@ setDoc(cityRef, { capital: true }, { merge: true });
       </tr>
       <tr>
         <td>
-          <button onClick="memberListPrintToJson()">명단 출력(JSON)</button>
+<!--           <button onClick="memberListPrintToJson()">명단 출력(JSON)</button> -->
           <button onClick="memberListPrintOrderByTier()">티어별 명단 출력</button>
           <button onClick="memberListPrintOrderByName()">명단 출력(이름)</button>
+          <button id="saveMemberInfo">명단 저장</button>
         </td>
       </tr>
 </body>
