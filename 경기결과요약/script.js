@@ -41,10 +41,9 @@ function memberInfoImport() {
 function GameResultDecomposition() {
 	// 로컬 스토리지에 데이터 저장
 	localStorage.setItem('playResult', $("#playResult").val());
-	// 괄호 내 문자 포함한 경우(게or왼or오) 제
 	var playResult=$("#playResult").val(); 
 	//1경기 포함하며 이전텍스트 모두 제거 후 'n경기' 기준으로 나누어서 리스트생성
-	var playResultList = playResult.substring(playResult.indexOf('1경기')).replace(/VS/gi, " ").replace(/\n/g, "").split(/\d{1,2}경기 /g);
+	var playResultList = playResult.substring(playResult.indexOf('1경기')).replace(/VS/gi, " ").split(/\d{1,2}경기 /g);
 	var players;
 	winnerArr = [];
 	//var reg = /\s*\(\d{1,2}\)/g;//(15)와 같이 점수를 포함한 괄호를 찾아 split
