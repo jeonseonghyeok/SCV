@@ -65,7 +65,6 @@ function GameResultDecomposition() {
 
 		}
 	});
-	autoCalResult+= '\n';
 	winnerList = Object.fromEntries(Object.entries(winnerArr).sort());
 
 	$("#winnerSortResult").val(autoCalResult);
@@ -150,6 +149,7 @@ function ConversionToObject(array) {
 }
 function winResultPrint(winnerList) {
 	var returnMessege = $("#winnerSortResult").val();
+	returnMessege += '\n';
 	//const keyArr = Object.keys(winnerList);
 	Object.keys(winnerList).forEach(e => {
 		returnMessege += (e + " " + winnerList[e]+"점\n");
@@ -282,7 +282,11 @@ function copyText(textToCopy) {
 function attendanceAdd() {
     var inputString = prompt("출석 이름을 입력하시오.");
     if (inputString != null && inputString != "") {
-        winnerList[inputString] = 0;
+        var names = inputString.split(" ");
+        names.forEach(function(name) {
+            winnerList[name] = 0;
+        });
+        
         alert("출석자 추가 완료");
         $("#winnerSortResult").val(autoCalResult);
         winResultPrint(winnerList);
