@@ -4,7 +4,8 @@ var memberInfo;
 var autoCalResult;
 
 window.onload = function() {
-    $("#playResult").val(localStorage.getItem('playResult'));
+	const storedPlqyResult = localStorage.getItem('playResult');
+    $("#playResult").val(storedPlqyResult);
 //    memberInfoImport();
     initializeDateTime();
 };
@@ -14,8 +15,8 @@ function initializeDateTime() {
     var defaultTime;
     if (now.getHours() >= 20)
         defaultTime = "19:30";
-    else if (now.getHours() >= 13)
-        defaultTime = "12:00";
+    else if (now.getHours() >= 14)
+        defaultTime = "13:00";
     else
         defaultTime = "09:00";
 
@@ -41,7 +42,7 @@ function memberInfoImport() {
 function GameResultDecomposition() {
 	// 로컬 스토리지에 데이터 저장
 	localStorage.setItem('playResult', $("#playResult").val());
-	var playResult=$("#playResult").val(); 
+	var playResult=$("#playResult").val();
 	//1경기 포함하며 이전텍스트 모두 제거 후 'n경기' 기준으로 나누어서 리스트생성
 	var playResultList = playResult.substring(playResult.indexOf('1경기')).replace(/VS/gi, " ").split(/\d{1,2}경기 /g);
 	var players;
@@ -57,10 +58,10 @@ function GameResultDecomposition() {
 			if (e.search(reg) < 5)
 				alert("승리팀 분석 실패\n" + e);
 			else if (e.search(reg) < 12) {//왼쪽 승(인덱스 값 7~9 예상)
-				autoCalResult += (index+'경기 '+players[0] +' '+ players[1]+'('+winPointGive(players,0)+')' + ' VS ' + players[2] +' '+ players[3]+'\n');
+				autoCalResult += (index+'경기 '+players[0] +' '+ players[1]+'('+winPointGiveNew(players,0)+')' + ' VS ' + players[2] +' '+ players[3]+'\n');
 			}
 			else {//오른쪽 승
-				autoCalResult += (index+'경기 '+players[0] +' '+ players[1] + ' VS ' + players[2] +' '+ players[3]+'('+winPointGive(players,1)+')'+'\n');
+				autoCalResult += (index+'경기 '+players[0] +' '+ players[1] + ' VS ' + players[2] +' '+ players[3]+'('+winPointGiveNew(players,1)+')'+'\n');
 			}
 
 		}
@@ -92,7 +93,7 @@ function winPointGive(players,winTeam){
 	switch (winTeam) {
 	case 0:
 		//성비에 따른 배수 계산
-		multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+		multiple += (memberInfo[players[0]].sex +memberInfo[players[1]].sex);
 		multiple -= (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
 		if(multiple<1)multiple=1;
 
@@ -105,7 +106,7 @@ function winPointGive(players,winTeam){
 	case 1:
 		//성비에 따른 배수 계산
 		multiple += (memberInfo[players[2]].sex +memberInfo[players[3]].sex);
-		multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex); 
+		multiple -= (memberInfo[players[0]].sex +memberInfo[players[1]].sex);
 		if(multiple<1)multiple=1;
 
 		//위 계산된 배수를 이용한 합산
@@ -118,7 +119,38 @@ function winPointGive(players,winTeam){
 		alert("오류발생");
 	}
 	return score;
-}	
+}
+function winPointGiveNew(players,winTeam){
+	const winPoint = 5;//기본승리점수
+	let score = 0;
+	//객체에 없는 경우 초기화
+	players.forEach(function(player,index){
+		if(!winnerArr.hasOwnProperty(player))
+			winnerArr[player] = 0;
+		if(memberInfo[player] == undefined){
+			alert("'"+player+"'은(는) 명단에 존재하지 않습니다.\n 임시로 정보를 저장합니다.")
+			if(memberSignUp(player)); //임시 가입처리, 실패 시 종료
+			else return 0;
+		}
+	});
+	var balancePoint = (memberInfo[players[0]].tier + memberInfo[players[1]].tier) - (memberInfo[players[2]].tier + memberInfo[players[3]].tier)
+	//승리 결과에 맞추어 우승점수 계산
+	switch (winTeam) {
+	case 0:
+		score =  winPoint-balancePoint;
+		winnerArr[players[0]] += score;
+		winnerArr[players[1]] += score;
+		break;
+	case 1:
+		score =   winPoint+balancePoint;
+		winnerArr[players[2]] += score;
+		winnerArr[players[3]] += score;
+		break;
+	default:
+		alert("오류발생");
+	}
+	return score;
+}
 
 function winningScoreCount(players,winTeam,score){
 	//객체에 없는 경우 초기화

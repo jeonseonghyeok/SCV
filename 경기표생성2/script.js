@@ -383,15 +383,12 @@ function sameNameCheck() {
 function rivalLevelCalculate(players, winTeam) {
   var score = 0; //점수
 
-  //(티어-성별)값을 통해 상대의 수준 계산
   switch (winTeam) {
     case 0:
-      score += memberInfo[players[2]].tier - memberInfo[players[2]].sex;
-      score += memberInfo[players[3]].tier - memberInfo[players[3]].sex;
+      score = memberInfo[players[2]].tier + memberInfo[players[3]].tier
       break;
     case 1:
-      score += memberInfo[players[0]].tier - memberInfo[players[0]].sex;
-      score += memberInfo[players[1]].tier - memberInfo[players[1]].sex;
+      score = memberInfo[players[0]].tier + memberInfo[players[1]].tier
       break;
     default:
       alert("오류발생");
