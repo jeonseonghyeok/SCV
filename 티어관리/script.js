@@ -253,75 +253,29 @@ function memberListPrintToJson() {
 }
 
 function memberListPrintOrderByTier(){
-	// 3행 6열의 배열 생성 및 초기화
-	var memberArr = Array.from({ length: 3 }, () => Array.from({ length: 7 }, () => []));
+	var memberArr = Array.from({ length: 7 }, () => []);
 	const tierName = ['🏸','Bronze','Silver','Gold','Platinum','Diamond','Master'];
-	const sexName = ['','남자','여자'];
 
-    for (var key in memberInfo) {
-        if (!memberInfo[key].hasOwnProperty("sex") || !memberInfo[key].hasOwnProperty("tier")) { // 성별이 없는거나 티어가 없는 경우 누락으로
-            memberArr[0][0].push(key);
-        } else {
-            memberArr[memberInfo[key].sex][memberInfo[key].tier].push(key);
-        }
-    }
+	for (var key in memberInfo) {
+	    if (!memberInfo[key].hasOwnProperty("tier")) { // 티어가 없는 경우 누락으로
+	        memberArr[0].push(key);
+	    } else {
+	        memberArr[memberInfo[key].tier].push(key);
+	    }
+	}
 	var printContent = "";
-    // 배열 순환하면서 출력
-    for (var i = 1; i < memberArr.length; i++) { //남,여 순서
-    	 printContent += (sexName[i] + ' \n');
-	      for (var j = memberArr[i].length-1; j > 0; j--) {
-	    	  printContent += (tierName[j]+'('+j+')' + '\n');
-	    	  printContent += (memberArr[i][j].sort().join(' / ')+'\n\n');
-	      }
-	      printContent += '─────────────────────\n\n';
-    }
-	if(memberArr[0][0]=='')
-    		printContent += ('누락 : ' + memberArr[0][0]);
-    $("#memberInfoBox").val(printContent);
+	// 배열 순환하면서 출력
+	for (var i = memberArr.length-1; i > 0; i--) {
+	    printContent += (tierName[i]+'('+i+')' + '\n');
+	    printContent += (memberArr[i].sort().join(' / ')+'\n\n');
+	}
+	if(memberArr[0].length > 0)
+	    printContent += ('누락 : ' + memberArr[0].sort().join(' / '));
+	$("#memberInfoBox").val(printContent);
 }
 
 function memberListPrintOrderByName() {
 	// 객체의 키를 정렬한 배열 생성
     $("#memberInfoBox").val(Object.keys(memberInfo).sort().join('\n'));
 }
-
-/*function ConversionToObject(array) {
-    array.sort();
-    return array.reduce((pv, cv) => {
-        pv[cv] = (pv[cv] || 0) + 1;
-        return pv;
-    }, {});
-}*/
-
-
-/*function membersTeamReset() {
-    if (confirm("팀을 초기화 하시겠습니까?")) {
-        for (var key in memberInfo) {
-            if (memberInfo.hasOwnProperty(key)) { // 객체의 고유한 속성만 처리
-                delete(memberInfo[key].team);
-            }
-        }
-    }
-}*/
-
-/**
- * 성별 일관 기입 또는 변경
-let memberlist = prompt('명단 입력');
-let promptMessege = '성별을 입력하시오.\n';
-promptMessege += '(남성:1 / 여성:2)';
-let inputSex = Number(prompt(promptMessege, ''));
-const players = memberlist.replace("  ", " ").split(" ");
-var successResult = "";
-
-for (var i = 0; i < players.length; i++) {
-	if (memberInfo[players[i]] == undefined)
-		console.log("'" + players[i] + "'은(는) 명단에 존재하지 않아 미처리");
-	else {
-		memberInfo[players[i]].sex = inputSex;
-        console.log(memberInfo[players[i]]);
-    }
-}
-
- */
-
 
