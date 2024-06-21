@@ -148,8 +148,10 @@ function GameCreate() {
   $("#seatContainer").html("");
   // 배열을 4개씩 나누어서 처리
   $("#seatContainer").html();
-  playListArr.forEach((element) => {
+  playListArr.forEach((element,index) => {
     let newRow = $('<div class="row"></div>');
+    // 체크박스 추가
+    newRow.append('<input type="checkbox" class="game-checkbox" data-game-index="'+index+'">');
     newRow.append('<div class="seat">' + element[0] + "</div>");
     newRow.append('<div class="seat">' + element[1] + "</div>");
     newRow.append(" vs ");
@@ -163,18 +165,30 @@ function GameCreate() {
   $("#GameMatchDiv").show();
   $("#playerInputDiv").hide();
   balanceEvaluation();
+}
+function GameReCreate() {
+ 	let uncheckedLines = [];
+	let readyPlayerListArr = [];
+    // 모든 게임 체크박스를 순회하며 체크 상태를 확인
+    $("#seatContainer .game-checkbox").each(function(index) {
+        if (!$(this).prop('checked')) {
+            uncheckedLines.push(index);
+            let $row = $(this).closest('.row');
 
-  //
-  //	// 2차원 배열 순환
-  //	var playList="";
-  //	for (let i = 0; i < playListArr.length; i++) {
-  //		playList += ((i+1)+"경기 "+playListArr[4*i+0]+" "+playListArr[4*i+1]+" VS "+playListArr[4*i+2]+" "+playListArr[4*i+3]+"\n");
-  //	}
-  //	var playListContent = '';
-  //	playListContent += (playersInfoPrint(attendanceListArr)+"\n");
-  //	playListContent += playList;
-  //	$("#playList").val(playListContent);
-  //	autoCopy(playListContent);
+            // 각 seat 요소에서 플레이어 이름을 추출하여 linePlayers 배열에 추가
+            $row.find('.seat').each(function() {
+                readyPlayerListArr.push($(this).text().trim());
+            });
+        }
+    });
+	let playListArr = createPlayList(readyPlayerListArr);
+	uncheckedLines.forEach(function(lineNum, index){
+		$("#seatContainer div.row:nth-child(" + (lineNum + 1) + ") div.seat").eq(0).text(playListArr[index][0]);
+		$("#seatContainer div.row:nth-child(" + (lineNum + 1) + ") div.seat").eq(1).text(playListArr[index][1]);
+		$("#seatContainer div.row:nth-child(" + (lineNum + 1) + ") div.seat").eq(2).text(playListArr[index][2]);
+		$("#seatContainer div.row:nth-child(" + (lineNum + 1) + ") div.seat").eq(3).text(playListArr[index][3]);
+	});
+  balanceEvaluation();
 }
 function playersInfoPrint(attendanceListArr) {
   const tierName = ["🏸", "브", "실", "골", "플", "다", "마"];
