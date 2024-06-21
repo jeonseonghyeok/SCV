@@ -342,28 +342,12 @@ function balanceEvaluation() {
       playListArr.slice(sliceStart, sliceEnd),
       1
     );
-    if (leftWinPoint - rightWinPoint <= -2) {
-      $(
-        "#seatContainer div.row:nth-child(" +
-          (i + 1) +
-          ") div.seat:nth-child(1)"
-      ).addClass("unbalanced");
-      $(
-        "#seatContainer div.row:nth-child(" +
-          (i + 1) +
-          ") div.seat:nth-child(2)"
-      ).addClass("unbalanced");
+       if (leftWinPoint - rightWinPoint <= -2) {
+      $("#seatContainer div.row:nth-child(" +(i + 1) +") div.seat").eq(0).addClass("unbalanced");
+      $("#seatContainer div.row:nth-child(" +(i + 1) +") div.seat").eq(1).addClass("unbalanced");
     } else if (leftWinPoint - rightWinPoint >= 2) {
-      $(
-        "#seatContainer div.row:nth-child(" +
-          (i + 1) +
-          ") div.seat:nth-child(3)"
-      ).addClass("unbalanced");
-      $(
-        "#seatContainer div.row:nth-child(" +
-          (i + 1) +
-          ") div.seat:nth-child(4)"
-      ).addClass("unbalanced");
+      $("#seatContainer div.row:nth-child(" +(i + 1) +") div.seat").eq(2).addClass("unbalanced");
+      $("#seatContainer div.row:nth-child(" +(i + 1) +") div.seat").eq(3).addClass("unbalanced");
     }
   }
 }
