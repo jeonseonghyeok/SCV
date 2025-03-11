@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://unpkg.com/@phosphor-icons/web"></script> -->
+	<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+    <title>경기표생성</title>
+</head>
+
+<body>
+</script>
+    <h3>경기표 생성</h3>
+    <div id="playerInputDiv">
+        <div class="playerContainer">
+            <div class="title">출석표(입력)</div>
+            <textarea id="attendanceList"></textarea>
+		</div>	
+        <div class="buttonContainer">
+            <button onClick="GameCreate()">경기 배치</button>
+            <button onClick="replaceInput()">띄어쓰기->줄바꿈 변환</button>
+        </div>
+    </div>
+    
+    <div id="GameMatchDiv" style="display: none;">
+        <div class="playerContainer">
+            <div class="title">티어정보</div>
+            <textarea id="tierInfo" readonly=""></textarea>
+            <div class="title" style='margin-top: 14px;'>경기 배치</div>
+            <!-- <i class="ph-fill ph-warning" style="color: #ff6666;"></i> -->
+            <div id="seatContainer">
+            </div>
+        </div>
+        <div class="buttonContainer">
+            <button onClick="GameReCreate()">랜덤재배치</button>
+            <button onClick="gamePrint()">경기표 생성</button>
+        </div>
+    </div>
+<!-- 	<button id="tbnInputClear" onClick="cancel()">취소</button> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./gameMatch/script.js"></script>
+    <link rel="stylesheet" href="./gameMatch/style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</body>
+
+</html>

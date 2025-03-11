@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jukury.scv.mapper.GameScheduleMapper">
+    <select id="selectGameScheduleBySchedule" parameterType="java.time.LocalDateTime" resultType="jukury.scv.model.GameSchedule">
+        SELECT * 
+        FROM game_schedule 
+        WHERE schedule BETWEEN DATE_SUB(#{schedule}, INTERVAL 90 MINUTE) 
+  		AND DATE_ADD(#{schedule}, INTERVAL 90 MINUTE)
+    </select>
+    
+    <!-- 스케줄 생성-->
+    <insert id="insertGameSchedule">
+        INSERT INTO game_schedule(schedule, created_by, updated_by)
+        VALUES (#{scheduleTime}, #{managerName}, #{managerName})
+    </insert>
+    <!--스케줄 조회(10일 내)-->
+    <select id="selectGameSchedule" resultType="jukury.scv.model.GameSchedule">
+		SELECT schedule_key,schedule,max_capacity
+		FROM game_schedule 
+		WHERE schedule BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 10 DAY)
+		AND status =1
+		ORDER BY schedule ASC
+    </select>
+</mapper>

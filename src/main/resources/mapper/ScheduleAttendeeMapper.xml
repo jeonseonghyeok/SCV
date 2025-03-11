@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jukury.scv.mapper.ScheduleAttendeeMapper">
+
+	<insert id="insertAttendee" parameterType="jukury.scv.request.AttendanceRequest"> 
+	    INSERT INTO schedule_attendee (schedule_id, member_id, created_by)
+	    VALUES
+	    <foreach collection="attendeeIds" item="attendeeId" separator=",">
+        	(#{scheduleId}, #{attendeeId}, #{managerId})
+   	 	</foreach>
+	</insert>
+	
+	<update id="updateCoatPaymentForVip" parameterType="jukury.scv.request.AttendanceRequest"> 
+    	UPDATE schedule_attendee attendee 
+		SET attendee.coat_payment = 1
+		WHERE attendee.schedule_id = #{scheduleId}
+		AND attendee.member_id IN (
+			SELECT member_id
+			FROM members
+			WHERE STATUS = 1
+			AND vip = 1
+	   )
+	</update>
+	
+	<select id="selectPaymentZero">
+		SELECT s.schedule_id,s.schedule_time ,sa.member_id,	m.name 
+		FROM schedule s 
+		LEFT JOIN schedule_attendee sa 
+		on s.schedule_id = sa.schedule_id
+		and sa.coat_payment = 0
+		LEFT JOIN members m 
+		on sa.member_id = m.member_id 
+		where s.vip_time = 1
+		AND sa.member_id is not NULL
+	</select>
+	
+	<update id="updateCoatPayment" parameterType="jukury.scv.request.PaymentRequest"> 
+    	UPDATE schedule_attendee attendee 
+		SET attendee.coat_payment = 1
+		WHERE attendee.coat_payment = 0
+		AND attendee.schedule_id = #{scheduleId}
+		AND attendee.member_id = #{memberId}
+	</update>
+	
+	<select id="selectTotalAttendance">
+		SELECT 
+		    member.member_id,
+		    member.name,
+		    COUNT(schedule.schedule_id) AS 'totalAttendance'
+		FROM 
+		    members member
+		LEFT JOIN 
+		    schedule_attendee attendee ON attendee.member_id = member.member_id
+		LEFT JOIN 
+		    schedule schedule ON attendee.schedule_id = schedule.schedule_id
+		    AND schedule.status = 'ACTIVE'
+	     	AND schedule.schedule_time <![CDATA[>=]]>
+	     	<if test="startDateTime != null">
+	     		#{startDateTime}
+     		</if>
+            <if test="startDateTime == null">
+            	DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE())-1 DAY), '%Y-%m-01 00:00:00')
+            </if>
+	     	AND schedule.schedule_time <![CDATA[<=]]>
+            <if test="endDateTime != null">
+                #{endDateTime}
+            </if>
+            <if test="endDateTime == null">
+                CURDATE()
+            </if>
+		WHERE 
+		    member.STATUS = 1
+		    <if test="memberId != 0">
+	     		AND member.member_id = #{memberId}
+     		</if>
+		GROUP BY 
+		    member.member_id
+	</select>
+	
+</mapper>

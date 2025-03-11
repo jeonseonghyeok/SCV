@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jukury.scv.mapper.MemberMapper">
+
+    <select id="findAll" resultType="java.util.Map">
+        SELECT member_id, name, sex, tier, exemption_coupon AS 'exemptionCoupon', created_timestamp AS 'createdTimestamp'
+        FROM members 
+        WHERE status = 1
+    </select>
+
+    <select id="findByName" parameterType="string" resultType="jukury.scv.model.Member">
+        SELECT member_id, name, sex, tier, exemption_coupon, created_timestamp
+        FROM members 
+        WHERE status = 1 
+        AND name = #{name}
+    </select>
+    
+    <select id="findMemberByToken" parameterType="string" resultType="member">
+        SELECT member_id, name, access_level
+        FROM members
+        WHERE status = 1 
+        AND token = #{token}
+    </select>
+    
+    <select id="findMemberByVerifyNumber" parameterType="string" resultType="member">
+        SELECT member_id, name, access_level, token
+        FROM members
+        WHERE status = 1 
+        AND enc_verify_number = #{verifyNumber}
+    </select>
+    
+    <select id="findByKakaoSessionId" parameterType="string" resultType="jukury.scv.model.Member">
+        SELECT name, sex, tier, exemption_coupon, created_timestamp, access_level
+        FROM members 
+        WHERE status = 1 
+        AND kakao_session_id = #{kakaoSessionId}
+    </select>
+    
+    <insert id="insert" parameterType="jukury.scv.model.Member">
+        INSERT INTO members (name, sex, last_chgr_manager) 
+        VALUES (#{name}, #{sex}, #{lastChgrManager})
+    </insert>
+
+    <update id="update" parameterType="jukury.scv.model.Member">
+        UPDATE members 
+	    <trim prefix="SET" suffixOverrides=",">
+	        <if test="tier != 0">
+	            tier = #{tier},
+	        </if>
+	        <if test="exemptionCoupon != 0">
+	            exemption_coupon = #{exemptionCoupon},
+	        </if>
+	        <if test="status != 0">
+	            status = #{status},
+	        </if>
+	        <if test="encVerifyNumber != null">
+	            enc_verify_number = #{encVerifyNumber},
+	        </if>
+	        <if test="token != null">
+	        	token = #{token},
+	            enc_verify_number = null,
+	        </if>
+	        <if test="lastChgrManager != 0">
+	        	last_chgr_manager = #{lastChgrManager}
+	        </if>
+    	</trim>
+        WHERE member_id = #{memberId}
+	        <if test="encVerifyNumber != null">
+	        	AND status = 1
+	        </if>
+    </update>
+    
+    <update id="updateKakaoSessionId" parameterType="jukury.scv.model.Member">
+        UPDATE members 
+        SET 
+<!--        	enc_verify_number = null,-->
+        	kakao_session_id = #{kakaoSessionId}
+        WHERE enc_verify_number = #{encVerifyNumber}
+    </update>
+
+    
+    <!-- 티어 업데이트 이력을 저장-->
+    <insert id="insertTierChangeHistory">
+        INSERT INTO tier_chg_hst (name, tier_bf, tier_af, reason, last_chgr_manager)
+        VALUES (#{name}, #{tier_bf}, #{tier_af}, #{reason}, #{lastChgrManager})
+    </insert>
+    
+	<!-- 면제권 업데이트 이력을 저장-->
+    <insert id="insertExemptionCouponChangeHistory">
+        INSERT INTO exemption_coupon_hst (name, amount, reason, last_chgr_manager)
+        VALUES (#{name}, #{amount}, #{reason}, #{lastChgrManager})
+    </insert>
+    
+</mapper>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+    <title>경기결과 요약</title>
+    <meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+</head>
+
+<body>
+    <div>
+        <Table>
+            <thead>
+                <tr>
+                    <th>경기결과(입력)</th>
+                    <th>승점(출력)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea id="playResult"></textarea>
+                    </td>
+                    <td><textarea id="winnerSortResult" readonly></textarea></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="tbnCalculator" onClick="GameResultDecomposition()">경기결과 정리</button>
+                        <button id="tbnInputClear" onClick="InputClear()">지우기</button>
+                    </td>
+                    <td>
+                        <a id="saveForm" style="display: none;">
+                            
+                            <input type="date" id="date">
+                            <input type="time" id="time" value="19:30" min="06:00:00" max="22:00:0">
+                            <button onClick="GameResultSave()">승점 기록</button>
+                            <button onClick="attendanceAdd()">출석 추가</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </Table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./saveGameResult/script.js"></script>
+    <link rel="stylesheet" href="./saveGameResult/style.css">
+
+</body>
+
+</html>
