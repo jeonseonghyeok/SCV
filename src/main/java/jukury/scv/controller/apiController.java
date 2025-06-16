@@ -99,7 +99,7 @@ public class apiController {
      * @return
      */
     @GetMapping(value={"/attendance", "/attendance/{memberId}"},produces="application/json; charset=utf8")
-    public ResponseEntity<Map<String, Object>> getAttendanceHistory(@PathVariable(name = "memberId", required = false) Integer memberId,
+    public ResponseEntity<Map<String, Object>> getAttendance(@PathVariable(name = "memberId", required = false) Integer memberId,
     		@RequestParam(name = "startDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDateTime,
 			@RequestParam(name = "endDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDateTime) {
     	
@@ -110,6 +110,33 @@ public class apiController {
 	    response.put("totalAttendanceList", totalAttendanceList);
    	 	response.put("scheduleInfoList", ScheduleList);
 	    return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+    /*
+     * 참석 종합 현황
+     */
+    @GetMapping(value={"/attendance/total", "/attendance/total/{memberId}"},produces="application/json; charset=utf8")
+    public List<TotalAttendance> getAttendanceTotal(@PathVariable(name = "memberId", required = false) Integer memberId,
+    		@RequestParam(name = "startDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDateTime,
+			@RequestParam(name = "endDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDateTime) {
+    	
+    	int memberIdValue = (memberId != null) ? memberId : 0;
+	   	List<TotalAttendance> totalAttendanceList = scheduleService.getTotalAttendanceList(startDateTime,endDateTime,memberIdValue);
+	    return totalAttendanceList;
+
+    }
+    
+    /**
+     * 참석 상세 현황
+     */
+    @GetMapping(value={"/attendance/details", "/attendance/details/{memberId}"},produces="application/json; charset=utf8")
+    public List<ScheduleResponse> getAttendanceHistory(@PathVariable(name = "memberId", required = false) Integer memberId,
+    		@RequestParam(name = "startDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDateTime,
+			@RequestParam(name = "endDateTime", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDateTime) {
+    	
+    	int memberIdValue = (memberId != null) ? memberId : 0;
+	   	List<ScheduleResponse> attendanceHistory = scheduleService.getScheduleList(startDateTime,endDateTime,memberIdValue);
+	    return attendanceHistory;
 
     }
     

@@ -46,7 +46,9 @@
 	<select id="selectTotalAttendance">
 		SELECT 
 		    member.member_id,
+		    member.tier,
 		    member.name,
+		    member.created_timestamp, 
 		    COUNT(schedule.schedule_id) AS 'totalAttendance'
 		FROM 
 		    members member
@@ -70,9 +72,11 @@
                 CURDATE()
             </if>
 		WHERE 
-		    member.STATUS = 1
+		    <if test="memberId == 0">
+		    	member.STATUS = 1
+		    </if>
 		    <if test="memberId != 0">
-	     		AND member.member_id = #{memberId}
+		    	member.member_id = #{memberId}
      		</if>
 		GROUP BY 
 		    member.member_id

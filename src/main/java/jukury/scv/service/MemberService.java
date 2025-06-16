@@ -29,7 +29,7 @@ public class MemberService {
     @Autowired
     private TokenMapper tokenMapper;
     
-    public List<Map<String, Object>> findAll() {
+    public List<Member> findAll() {
         return memberMapper.findAll();
     }
 
@@ -158,13 +158,10 @@ public class MemberService {
         return verificationCode;
     }
  // 인증번호 생성 및 DB 저장
-    public String verifyNumberGenerate(int memberId,Member manager) {
-    	//권한체크(최고관리자 여부)access_level
-    	if(manager.getAccessLevel()<9)
-    		return "권한이 없습니다.";
+    public String verifyNumberGenerate(int memberId,int managerMemberId) {
         Member member = new Member();
         member.setMemberId(memberId);
-        member.setLastChgrManager(manager.getMemberId());
+        member.setLastChgrManager(managerMemberId);
         String verificationCode = generateVerificationCode();
         String hashedData = hashCodeWithDate(verificationCode);
         member.setEncVerifyNumber(hashedData);

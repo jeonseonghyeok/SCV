@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
-	List<Map<String, Object>> findAll();
+	List<Member> findAll();
     Member findByName(String name); 
     Member findMemberByToken(String token); 
     Member findMemberByVerifyNumber(String encVerifyNumber);

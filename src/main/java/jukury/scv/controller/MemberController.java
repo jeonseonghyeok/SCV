@@ -22,7 +22,7 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping
-    public List<Map<String, Object>> getAllMembers() {
+    public List<Member> getAllMembers() {
         return memberService.findAll();
     }
 
@@ -145,14 +145,25 @@ public class MemberController {
     @AuthCheck
     @GetMapping("/verifyNumberGenerate")
     public ResponseEntity<String> verifyNumberGenerate(@RequestParam("memberId") int memberId) {
-    	Member manager = UserContext.getMember();
-    	
-    	String verificationCode = memberService.verifyNumberGenerate(memberId,manager);
-    	if(verificationCode != null)
-    		return new ResponseEntity<>(verificationCode, HttpStatus.OK);
-		return null;
-    	
-   }
+
+        Member manager = UserContext.getMember();
+
+		// 권한 체크: 최고관리자(AccessLevel 9)만 가능
+		if (manager.getAccessLevel() < 9) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
+		}
+		
+		try {
+			String verificationCode = memberService.verifyNumberGenerate(memberId, manager.getMemberId());
+			if (verificationCode != null) {
+				return ResponseEntity.ok(verificationCode);
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("인증번호를 생성할 수 없습니다.");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류로 인증번호 생성에 실패했습니다.");
+        }
+    }
     
     @GetMapping("/tokenGenerate")
     public ResponseEntity<String> tokenGenerate(@RequestParam("verifyNumber") Integer verifyNumber) {

@@ -3,8 +3,8 @@
 
 <mapper namespace="jukury.scv.mapper.MemberMapper">
 
-    <select id="findAll" resultType="java.util.Map">
-        SELECT member_id, name, sex, tier, exemption_coupon AS 'exemptionCoupon', created_timestamp AS 'createdTimestamp'
+    <select id="findAll" resultType="jukury.scv.model.Member">
+        SELECT member_id, name, sex, tier, exemption_coupon, created_timestamp
         FROM members 
         WHERE status = 1
     </select>
