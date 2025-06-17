@@ -7,7 +7,6 @@ build/
 # ignore properties file
 src/main/resources/application-private.properties
 
-
 ### STS ###
 .apt_generated
 .classpath
