@@ -15,8 +15,8 @@ public class appController {
      * @return 뷰 이름 "tokenAuthentication"
      */
     @GetMapping("/tokenAuthentication")
-    public String tokenAuthentication(Model model,@RequestParam(value = "token", required = false) String token) {
-    	model.addAttribute("token", token);
+    public String tokenAuthentication(Model model,@RequestParam(value = "verifyNumber", required = false) String verifyNumber) {
+    	model.addAttribute("verifyNumber", verifyNumber);
         return "tokenAuthentication";
     }
     

@@ -307,8 +307,8 @@ function getPlayTime() {
   var formattedTime;
 
   if (now.getHours() >= 17) formattedTime = "오후 7시 30분";
-  else if (now.getHours() >= 13) formattedTime = "오후 13시";
-  else formattedTime = "오전 9시";
+  else if (now.getHours() >= 13) formattedTime = "오후 13시 00분";
+  else formattedTime = "오전 9시 00분";
   return formattedDate + " " + formattedTime;
 }
 

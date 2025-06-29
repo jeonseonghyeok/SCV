@@ -10,20 +10,20 @@
 		$(document).ready(function () {
 			// URL에서 토큰이 있는경우 바로 체크하고 없으면 토큰 입력창 띄우기
 			const urlParams = new URLSearchParams(window.location.search);
-			let token = urlParams.get('token');
+			let verifyNumber = urlParams.get('verifyNumber');
 
-			if (token) {
-				verifyToken(token);
+			if (verifyNumber) {
+				verifyNumberCheck(verifyNumber);
 			} else {
 				promptForToken();
 			}
 		});
 		function promptForToken() {
-			let token = prompt("토큰을 입력해주세요:");
-			if (token) {
-				verifyToken(token);
+			let verifyNumber = prompt("인증번호 6자리를 입력해주세요:");
+			if (verifyNumber) {
+				verifyNumberCheck(verifyNumber);
 			} else {
-				alert("토큰이 필요합니다.");
+				alert("인증번호 6자리가 필요합니다.");
 			}
 		}
 		function verifyToken(token) {
@@ -37,6 +37,31 @@
 					alert(response+'님 토큰 확인되었습니다.');
 					alert('회원관리페이지로 이동합니다.');
 					window.location.href = "./memberManage";
+				},
+				error: function (xhr) {
+					if (xhr.status === 401) {
+						alert(xhr.responseText);
+					} else {
+						alert('토큰 검증 중 오류 발생: ' + xhr.status);
+					}
+				}
+			});
+		}
+		function verifyNumberCheck(verifyNumber) {
+			// GET 요청으로 토큰을 서버에 전송
+			$.ajax({
+				url: '/members/tokenGenerate?verifyNumber=' + verifyNumber, // 토큰을 URL 파라미터로 전송
+				method: 'GET',
+				success: function (response) {
+					// 토큰 검증 성공 시 로컬 스토리지에 저장
+					if (response && response.token && response.name) {
+						localStorage.setItem('token', response.token);
+						alert(response.name+'님 본인확인되었습니다.');
+						alert('회원관리페이지로 이동합니다.');
+						window.location.href = "./memberManage";
+					}else {
+				        alert('인증번호가 올바르지 않습니다.');
+				    }
 				},
 				error: function (xhr) {
 					if (xhr.status === 401) {

@@ -177,12 +177,12 @@ public class MemberService {
      * @param manager
      * @return
      */
-    public String tokenGenerate(String verifyNumber) {
+    public Member tokenGenerate(String verifyNumber) {
         	
         String encVerifyNumber = hashCodeWithDate(verifyNumber);
         Member member = memberMapper.findMemberByVerifyNumber(encVerifyNumber);
         if(member == null) {
-        	return "인증번호의 기간이 만료되었거나 올바르지 않습니다.";
+        	return null;
         }
         
         //토큰생성(기존에 생성된 토큰이 없는 경우에만)
@@ -195,7 +195,7 @@ public class MemberService {
         memberMapper.update(member);
         
         //토큰 값 반환
-        return token;
+        return member;
         
     }
     

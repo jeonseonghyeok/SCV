@@ -3,11 +3,13 @@ var token;
 let writer;
 let attendees = {};
 var memberInfo;
+var autoDateTimeSetting;
 
 window.onload = function() {
 	tokenAuthentication();
-    initializeDateTime();
+//    initializeDateTime();
 	memberInfoImport();
+	autoDateTimeSetting = 0;
 }
 //토큰인증
 function tokenAuthentication() {
@@ -56,6 +58,7 @@ $('#inputText').on('input', function() {
     // 텍스트박스에서 내용 가져오기
     attendees = {};//초기화
     const inputText = $('#inputText').val();
+	setDateTime(inputText);
 
     // 입력된 텍스트를 줄바꿈을 기준으로 분리
 	const lines = inputText.split('\n');
@@ -66,7 +69,7 @@ $('#inputText').on('input', function() {
 	lines.forEach(line => {
 	    // 각 줄에 대해 정규식 적용
 	    const match = regex.exec(line);
-	    
+		
 	    if (match) {
 	        // 이름 목록이 있는 경우에만 처리
 	        const names = match[1].trim();
@@ -89,22 +92,60 @@ $('#inputText').on('input', function() {
 		$("#saveForm").hide();
 	
 });
+/**
+ * SCV경기표 제목에서 날짜와 시간을 추출해 jQuery로 input에 자동 설정
+ * @param {string} title - 예: "SCV경기표🏸 (6월 26일 오후 7시 30분)"
+ */
+function setDateTime(title) {
+    // 괄호 안의 "6월 26일 오후 7시 30분" 패턴 추출
+    var match = title.match(/\((\d+)월\s*(\d+)일\s*(오전|오후)\s*(\d+)시\s*(\d+)분\)/);
+	if(autoDateTimeSetting) return; //최초 세팅 외에는 자동세팅X
+    if (!match) return; // 패턴이 없으면 종료
+
+    var month = parseInt(match[1], 10);
+    var day = parseInt(match[2], 10);
+    var ampm = match[3];
+    var hour = parseInt(match[4], 10);
+    var minute = parseInt(match[5], 10);
+
+    // 오전/오후 변환
+    if (ampm === "오후" && hour < 12) hour += 12;
+    if (ampm === "오전" && hour === 12) hour = 0;
+
+    // 오늘 연도 사용 (필요시 수정)
+    var today = new Date();
+    var year = today.getFullYear();
+
+    // yyyy-MM-dd
+    var dateStr = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    // HH:mm
+    var timeStr = String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
+
+    // jQuery로 값 넣기
+    $("#date").val(dateStr);
+    $("#time").val(timeStr);
+	autoDateTimeSetting = 1;
+}
+
 
 $('#registerBtn').on('click', function() {
 	var gameTime = document.querySelector('input[id="date"]').value +"T"+ document.querySelector('input[id="time"]').value;
 //	var scriptLink = "AKfycbxk--xhwahqnFFAM6pbXU1ydFpKaHARdyQa0Hhkn3yfeJ24RswReTuNRRFab3Ua_uWfgA";
 
-	const attendeeIds = []; // 변환한 member_id를 담을 배열
-	// attendees의 이름을 member_id로 변환
-	// attendees의 이름을 순회하면서 member_id를 찾기
+	const attendeeIds = []; // 변환한 memberId를 담을 배열
+	// attendees의 이름을 memberId로 변환
+	// attendees의 이름을 순회하면서 memberId를 찾기
 	Object.keys(attendees).forEach(name => {
-	    if (memberInfo[name]) {
-	        attendeeIds.push(memberInfo[name].member_id);
-	    } else {
-			alert("'"+name+"'을 명단에서 찾을 수 없습니다.");
-			attendeeIds = [];
-			return;
-	    }
+		// 🐣 이모지 제거
+		    const cleanName = name.replace(/🐣/g, '');
+
+		    if (memberInfo[cleanName]) {
+		        attendeeIds.push(memberInfo[cleanName].memberId);
+		    } else {
+		        alert("'" + cleanName + "'을 명단에서 찾을 수 없습니다.");
+		        attendeeIds = [];
+		        return;
+		    }
 	});
 
 	if(confirm("출석명단을 기록하시겠습니까?(작성자 : "+writer+")")){
@@ -163,13 +204,14 @@ $('#ouputCopy').on('click', function() {
 });
 
 
-//이름에 "게스트" 문자를 포함하거나 공백 키를 제거한 JSON 객체를 반환
+//이름에 "*,(,)" 문자를 포함하거나 공백 키를 제거한 JSON 객체를 반환
 function removeKeysWithGuest(jsonData) {
-	for (const key in jsonData) {
-		if (key.includes("게스트") || key === "") {
-			delete jsonData[key];
-		}
-	}
+    const pattern = /[\*\(\)]/; // *, (, ) 중 하나라도 포함하는지 체크
+    for (const key in jsonData) {
+        if (pattern.test(key) || key === "") {
+            delete jsonData[key];
+        }
+    }
 }
 
 //새로운 임시 요소를 만들어 텍스트를 복사를 수행하고 제거

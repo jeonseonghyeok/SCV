@@ -125,19 +125,6 @@ public class MemberController {
 	            return new ResponseEntity<>("Unknown Error", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
     }
-    /**
-     * 인증번호생성
-     * @param request
-     * @return
-     */
-    @Deprecated 
-    @PostMapping("/verifyNumberGenerate")
-    public ResponseEntity<String> verifyNumberGenerate(@RequestBody Map<String, Object> requestData, @RequestHeader("Authorization") String token) {
-    	 // JSON의 "name" 필드를 추출
-        String name = (String) requestData.get("name");
-    	String result = memberService.verifyNumberGenerate(name,token);
-    		return new ResponseEntity<>(result, HttpStatus.OK);
-    }
     
     /**
      * 토큰 발급을 위한 임시인증번호(6자리)생성
@@ -166,10 +153,9 @@ public class MemberController {
     }
     
     @GetMapping("/tokenGenerate")
-    public ResponseEntity<String> tokenGenerate(@RequestParam("verifyNumber") Integer verifyNumber) {
-    	
-    	String token = memberService.tokenGenerate(verifyNumber.toString());
-    	return new ResponseEntity<>(token, HttpStatus.OK);
+    public Member tokenGenerate(@RequestParam("verifyNumber") Integer verifyNumber) {
+    	Member member = memberService.tokenGenerate(verifyNumber.toString());
+    	return member;
    }
     
 }
