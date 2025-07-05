@@ -492,7 +492,7 @@ function generateVerificationCode() {
 
 	if (member !== undefined) {
 		$.ajax({
-			url: memberManageUrl + "/verifyNumberGenerate?memberId="+member.member_id,
+			url: memberManageUrl + "/verifyNumberGenerate?memberId="+member.memberId,
 			type: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
