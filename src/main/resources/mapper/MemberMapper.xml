@@ -45,30 +45,31 @@
     <update id="update" parameterType="jukury.scv.model.Member">
         UPDATE members 
 	    <trim prefix="SET" suffixOverrides=",">
-	        <if test="tier != 0">
+	        <if test="tier != null">
 	            tier = #{tier},
 	        </if>
-	        <if test="exemptionCoupon != 0">
+	        <if test="exemptionCoupon != null">
 	            exemption_coupon = #{exemptionCoupon},
 	        </if>
-	        <if test="status != 0">
+	        <if test="status != null">
 	            status = #{status},
 	        </if>
 	        <if test="encVerifyNumber != null">
 	            enc_verify_number = #{encVerifyNumber},
 	        </if>
 	        <if test="token != null">
-	        	token = #{token},
+	            token = #{token},
 	            enc_verify_number = null,
 	        </if>
-	        <if test="lastChgrManager != 0">
-	        	last_chgr_manager = #{lastChgrManager}
+	        <if test="lastChgrManager != null">
+	            last_chgr_manager = #{lastChgrManager},
 	        </if>
-    	</trim>
-        WHERE member_id = #{memberId}
-	        <if test="encVerifyNumber != null">
-	        	AND status = 1
-	        </if>
+	        updated_timestamp = NOW()
+	    </trim>
+	    WHERE member_id = #{memberId}
+	    <if test="encVerifyNumber != null">
+	        AND status = 1
+	    </if>
     </update>
     
     <update id="updateKakaoSessionId" parameterType="jukury.scv.model.Member">

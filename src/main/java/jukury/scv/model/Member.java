@@ -12,12 +12,12 @@ public class Member {
     private int memberId;
     private String name;
     private int sex;
-    private int tier;
-    private int exemptionCoupon;
-    private int status;
+    private Integer tier;                  // ✅ 조건부 업데이트
+    private Integer exemptionCoupon;       // ✅ 조건부 업데이트
+    private Integer status;                // ✅ 조건부 업데이트
     private LocalDateTime createdTimestamp;
     private LocalDateTime updatedTimestamp;
-    private int lastChgrManager;
+    private Integer lastChgrManager;       // ✅ 조건부 업데이트
     private String encVerifyNumber;
     private String token;
     private int accessLevel;// 2(관리자), 9(최고관리자)
